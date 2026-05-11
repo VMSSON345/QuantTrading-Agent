@@ -1,0 +1,24 @@
+venv/
+__pycache__/
+*.pyc
+
+# env
+.env
+
+# model
+*.pt
+*.pth
+*.ckpt
+
+# data
+data/
+datasets/
+
+# logs
+*.log
+
+# notebook checkpoints
+.ipynb_checkpoints/
+
+# system
+.DS_Store

@@ -1,0 +1,46 @@
+# Cấu hình tổng hợp QuantAgent
+
+project:
+  name: "QuantAgent Vietnam"
+  version: "1.0.0"
+  description: "Hệ thống tự động khai thác alpha factor cho TTCK Việt Nam"
+
+paths:
+  data_raw: "data/raw"
+  data_processed: "data/processed"
+  chroma_db: "data/chroma_kb"
+  alpha_codes: "data/alpha_codes"
+  models: "models"
+  logs: "logs"
+  frontend: "frontend"
+
+loop:
+  max_inner_iter: 3          # T - số vòng Writer↔Judge
+  max_outer_iter: 2          # K - số vòng Outer Loop
+  judge_pass_score: 7.0      # Điểm ngưỡng để Inner Loop dừng
+  min_ic_to_save: 0.01       # IC tối thiểu để lưu KB
+
+backtest:
+  forward_days: 5            # Dự báo n ngày tới
+  start_date: "2021-01-01"
+  end_date: "2024-12-31"
+  min_valid_ratio: 0.5       # Tỷ lệ dữ liệu hợp lệ tối thiểu
+
+data:
+  ohlcv_cols: ["open", "high", "low", "close", "volume"]
+  date_col: "time"
+  symbol_pattern: "stock_data_*.csv"
+
+api:
+  host: "127.0.0.1"
+  port: 8900
+  reload: true
+  log_level: "info"
+
+frontend:
+  port: 5500
+
+logging:
+  level: "INFO"
+  rotation: "1 day"
+  retention: "7 days"

@@ -1,0 +1,494 @@
+{
+  "config": {
+    "inner_iterations": 2,
+    "outer_iterations": 3,
+    "n_ideas": 10,
+    "horizon": 1
+  },
+  "direct": {
+    "mean_ic": 0.00212,
+    "mean_sharpe": 0.36960000000000004,
+    "mean_max_drawdown": -0.16099999999999998,
+    "mean_valid_ratio": 0.74255,
+    "mean_relevance": 5.17,
+    "good": 0,
+    "weak": 3,
+    "bad": 7,
+    "results": [
+      {
+        "version": "Direct",
+        "idea_idx": 1,
+        "alpha_id": "a41339fe",
+        "idea": "Cổ phiếu giảm liên tiếp 3 ngày nhưng volume tăng thường phục hồi",
+        "metrics": {
+          "ic": 0.0051,
+          "sharpe": 0.214,
+          "max_drawdown": -0.182,
+          "win_rate": 0.482,
+          "valid_ratio": 0.9968,
+          "verdict": "BAD"
+        },
+        "relevance": 3.2
+      },
+      {
+        "version": "Direct",
+        "idea_idx": 2,
+        "alpha_id": "7ba16a59",
+        "idea": "Cổ phiếu AAA có nên mua không (Mean Reversion cơ bản)",
+        "metrics": {
+          "ic": -0.0124,
+          "sharpe": -0.452,
+          "max_drawdown": -0.312,
+          "win_rate": 0.395,
+          "valid_ratio": 0.724,
+          "verdict": "BAD"
+        },
+        "relevance": 1.5
+      },
+      {
+        "version": "Direct",
+        "idea_idx": 3,
+        "alpha_id": "f71afd3c",
+        "idea": "Volume tăng đột biến nhưng giá gần như không thay đổi.",
+        "metrics": {
+          "ic": 0.0089,
+          "sharpe": 1.125,
+          "max_drawdown": -0.084,
+          "win_rate": 0.532,
+          "valid_ratio": 0.9831,
+          "verdict": "WEAK"
+        },
+        "relevance": 7.8
+      },
+      {
+        "version": "Direct",
+        "idea_idx": 4,
+        "alpha_id": "d10e62ce",
+        "idea": "Giảm mạnh 5 ngày → đảo chiều",
+        "metrics": {
+          "ic": 0.0152,
+          "sharpe": 0.842,
+          "max_drawdown": -0.214,
+          "win_rate": 0.491,
+          "valid_ratio": 0.9184,
+          "verdict": "BAD"
+        },
+        "relevance": 5.4
+      },
+      {
+        "version": "Direct",
+        "idea_idx": 5,
+        "alpha_id": "99f9ad27",
+        "idea": "Volume tăng mạnh nhưng giá ít thay đổi → accumulation",
+        "metrics": {
+          "ic": 0.0,
+          "sharpe": 0.0,
+          "max_drawdown": 0.0,
+          "win_rate": 0.0,
+          "valid_ratio": 0.0,
+          "verdict": "BAD"
+        },
+        "relevance": 8.2
+      },
+      {
+        "version": "Direct",
+        "idea_idx": 6,
+        "alpha_id": "8b7ff9b8",
+        "idea": "Giảm mạnh 4 ngày → đảo chiều",
+        "metrics": {
+          "ic": 0.0192,
+          "sharpe": 1.654,
+          "max_drawdown": -0.092,
+          "win_rate": 0.551,
+          "valid_ratio": 0.9592,
+          "verdict": "WEAK"
+        },
+        "relevance": 4.1
+      },
+      {
+        "version": "Direct",
+        "idea_idx": 7,
+        "alpha_id": "f8232934",
+        "idea": "Giá vẫn tăng nhưng mức tăng giảm dần (momentum loss)",
+        "metrics": {
+          "ic": -0.0021,
+          "sharpe": 0.412,
+          "max_drawdown": -0.156,
+          "win_rate": 0.468,
+          "valid_ratio": 1.0,
+          "verdict": "BAD"
+        },
+        "relevance": 6.7
+      },
+      {
+        "version": "Direct",
+        "idea_idx": 8,
+        "alpha_id": "3a92b87e",
+        "idea": "Giá chạm dải trên Bollinger (Overbought)",
+        "metrics": {
+          "ic": 0.0114,
+          "sharpe": 1.025,
+          "max_drawdown": -0.118,
+          "win_rate": 0.524,
+          "valid_ratio": 0.852,
+          "verdict": "WEAK"
+        },
+        "relevance": 2.9
+      },
+      {
+        "version": "Direct",
+        "idea_idx": 9,
+        "alpha_id": "9f05a635",
+        "idea": "Giá chạm dải dưới Bollinger (Oversold)",
+        "metrics": {
+          "ic": 0.0,
+          "sharpe": 0.0,
+          "max_drawdown": 0.0,
+          "win_rate": 0.5,
+          "valid_ratio": 0.0,
+          "verdict": "BAD"
+        },
+        "relevance": 4.8
+      },
+      {
+        "version": "Direct",
+        "idea_idx": 10,
+        "alpha_id": "69bd9061",
+        "idea": "Giá giảm mạnh bất thường trong 1 phiên (Panic selling)",
+        "metrics": {
+          "ic": -0.0241,
+          "sharpe": -1.124,
+          "max_drawdown": -0.452,
+          "win_rate": 0.284,
+          "valid_ratio": 0.992,
+          "verdict": "BAD"
+        },
+        "relevance": 7.1
+      }
+    ]
+  },
+  "full": {
+    "mean_ic": 0.031203099999999994,
+    "mean_sharpe": 5.907605599999999,
+    "mean_max_drawdown": -0.04101,
+    "mean_valid_ratio": 0.9759800000000001,
+    "mean_relevance": 8.4,
+    "good": 9,
+    "weak": 1,
+    "bad": 0,
+    "results": [
+      {
+        "version": "Full",
+        "idea_idx": 1,
+        "alpha_id": "a41339fe",
+        "idea": "Cổ phiếu nào giảm liên tiếp 3 ngày nhưng volume tăng thường phục hồi",
+        "metrics": {
+          "ic": 0.017938,
+          "sharpe": 2.094149,
+          "max_drawdown": -0.0192,
+          "win_rate": 0.5665,
+          "valid_ratio": 0.9968,
+          "verdict": "GOOD"
+        },
+        "relevance": 9.0
+      },
+      {
+        "version": "Full",
+        "idea_idx": 2,
+        "alpha_id": "7ba16a59",
+        "idea": "Cổ phiếu AAA có nên mua không (Mean Reversion cơ bản)",
+        "metrics": {
+          "ic": 0.025406,
+          "sharpe": 2.433931,
+          "max_drawdown": -0.0562,
+          "win_rate": 0.5747,
+          "valid_ratio": 0.9839,
+          "verdict": "GOOD"
+        },
+        "relevance": 4.0
+      },
+      {
+        "version": "Full",
+        "idea_idx": 3,
+        "alpha_id": "f71afd3c",
+        "idea": "Khối lượng giao dịch tăng đột biến so với những ngày trước đó, trong khi giá gần như không thay đổi.",
+        "metrics": {
+          "ic": 0.013595,
+          "sharpe": 1.611084,
+          "max_drawdown": -0.0191,
+          "win_rate": 0.5572,
+          "valid_ratio": 0.9831,
+          "verdict": "WEAK"
+        },
+        "relevance": 9.5
+      },
+      {
+        "version": "Full",
+        "idea_idx": 4,
+        "alpha_id": "d10e62ce",
+        "idea": "Giảm mạnh 5 ngày → đảo chiều",
+        "metrics": {
+          "ic": 0.036941,
+          "sharpe": 6.954221,
+          "max_drawdown": -0.0595,
+          "win_rate": 0.6933,
+          "valid_ratio": 0.9184,
+          "verdict": "GOOD"
+        },
+        "relevance": 10.0
+      },
+      {
+        "version": "Full",
+        "idea_idx": 5,
+        "alpha_id": "99f9ad27",
+        "idea": "Volume tăng mạnh nhưng giá ít thay đổi → accumulation",
+        "metrics": {
+          "ic": 0.02566,
+          "sharpe": 5.215094,
+          "max_drawdown": -0.0293,
+          "win_rate": 0.6667,
+          "valid_ratio": 0.9184,
+          "verdict": "GOOD"
+        },
+        "relevance": 10.0
+      },
+      {
+        "version": "Full",
+        "idea_idx": 6,
+        "alpha_id": "8b7ff9b8",
+        "idea": "Giảm mạnh 4 ngày → đảo chiều",
+        "metrics": {
+          "ic": 0.034891,
+          "sharpe": 6.719877,
+          "max_drawdown": -0.0508,
+          "win_rate": 0.6894,
+          "valid_ratio": 0.9592,
+          "verdict": "GOOD"
+        },
+        "relevance": 10.0
+      },
+      {
+        "version": "Full",
+        "idea_idx": 7,
+        "alpha_id": "f8232934",
+        "idea": "Tôi quan sát thấy giá vẫn tăng nhưng mức tăng giảm dần. Xu hướng có dấu hiệu suy yếu. Hãy triển khai một tín hiệu giao dịch dựa trên quan sát này",
+        "metrics": {
+          "ic": 0.0525,
+          "sharpe": 9.8887,
+          "max_drawdown": -0.042,
+          "win_rate": 0.742,
+          "valid_ratio": 1.0,
+          "verdict": "GOOD"
+        },
+        "relevance": 7.5
+      },
+      {
+        "version": "Full",
+        "idea_idx": 8,
+        "alpha_id": "3a92b87e",
+        "idea": "Tôi quan sát thấy giá chạm dải trên Bollinger. Cổ phiếu có thể bị mua quá mức. Hãy triển khai một tín hiệu giao dịch dựa trên quan sát này",
+        "metrics": {
+          "ic": 0.0506,
+          "sharpe": 10.745,
+          "max_drawdown": -0.051,
+          "win_rate": 0.751,
+          "valid_ratio": 1.0,
+          "verdict": "GOOD"
+        },
+        "relevance": 6.5
+      },
+      {
+        "version": "Full",
+        "idea_idx": 9,
+        "alpha_id": "9f05a635",
+        "idea": "Tôi quan sát thấy giá chạm dải dưới Bollinger. Cổ phiếu có thể bị bán quá mức. Hãy triển khai một tín hiệu giao dịch dựa trên quan sát này",
+        "metrics": {
+          "ic": 0.0309,
+          "sharpe": 7.202,
+          "max_drawdown": -0.045,
+          "win_rate": 0.684,
+          "valid_ratio": 1.0,
+          "verdict": "GOOD"
+        },
+        "relevance": 9.5
+      },
+      {
+        "version": "Full",
+        "idea_idx": 10,
+        "alpha_id": "69bd9061",
+        "idea": "Tôi quan sát thấy giá giảm mạnh bất thường trong 1 phiên. Có thể là panic selling. Hãy triển khai một tín hiệu giao dịch dựa trên quan sát này",
+        "metrics": {
+          "ic": 0.0236,
+          "sharpe": 6.212,
+          "max_drawdown": -0.038,
+          "win_rate": 0.627,
+          "valid_ratio": 1.0,
+          "verdict": "GOOD"
+        },
+        "relevance": 8.0
+      }
+    ]
+  },
+  "full_101": {
+    "mean_ic": 0.04768850000000001,
+    "mean_sharpe": 7.3335054,
+    "mean_max_drawdown": -0.04640999999999999,
+    "mean_valid_ratio": 0.9198000000000001,
+    "mean_relevance": 9.1,
+    "good": 9,
+    "weak": 1,
+    "bad": 0,
+    "results": [
+      {
+        "version": "Full + 101",
+        "idea_idx": 1,
+        "alpha_id": "ddd92f84",
+        "idea": "Cổ phiếu nào giảm liên tiếp 3 ngày nhưng volume tăng thường phục hồi",
+        "metrics": {
+          "ic": 0.012759,
+          "sharpe": 2.334931,
+          "max_drawdown": -0.0503,
+          "win_rate": 0.5367,
+          "valid_ratio": 0.8898,
+          "verdict": "GOOD"
+        },
+        "relevance": 9.0
+      },
+      {
+        "version": "Full + 101",
+        "idea_idx": 2,
+        "alpha_id": "2f6e4b1a",
+        "idea": "Cổ phiếu AAA có nên mua không (Mean Reversion cơ bản)",
+        "metrics": {
+          "ic": 0.101042,
+          "sharpe": 15.869477,
+          "max_drawdown": -0.0099,
+          "win_rate": 0.8489,
+          "valid_ratio": 0.9184,
+          "verdict": "GOOD"
+        },
+        "relevance": 8.0
+      },
+      {
+        "version": "Full + 101",
+        "idea_idx": 3,
+        "alpha_id": "9966bbff",
+        "idea": "Khối lượng giao dịch tăng đột biến so với những ngày trước đó, trong khi giá gần như không thay đổi.",
+        "metrics": {
+          "ic": 0.014528,
+          "sharpe": 2.476892,
+          "max_drawdown": -0.0587,
+          "win_rate": 0.56,
+          "valid_ratio": 0.9184,
+          "verdict": "WEAK"
+        },
+        "relevance": 9.5
+      },
+      {
+        "version": "Full + 101",
+        "idea_idx": 4,
+        "alpha_id": "e2cfbc82",
+        "idea": "Giảm mạnh 5 ngày → đảo chiều",
+        "metrics": {
+          "ic": 0.038683,
+          "sharpe": 5.205502,
+          "max_drawdown": -0.0806,
+          "win_rate": 0.6044,
+          "valid_ratio": 0.9184,
+          "verdict": "GOOD"
+        },
+        "relevance": 10.0
+      },
+      {
+        "version": "Full + 101",
+        "idea_idx": 5,
+        "alpha_id": "634813a4",
+        "idea": "Volume tăng mạnh nhưng giá ít thay đổi → accumulation",
+        "metrics": {
+          "ic": 0.043996,
+          "sharpe": 5.15476,
+          "max_drawdown": -0.079,
+          "win_rate": 0.64,
+          "valid_ratio": 0.9184,
+          "verdict": "GOOD"
+        },
+        "relevance": 10.0
+      },
+      {
+        "version": "Full + 101",
+        "idea_idx": 6,
+        "alpha_id": "fe385b6a",
+        "idea": "Giảm mạnh 4 ngày → đảo chiều",
+        "metrics": {
+          "ic": 0.044891,
+          "sharpe": 7.319877,
+          "max_drawdown": -0.0408,
+          "win_rate": 0.7094,
+          "valid_ratio": 0.9692,
+          "verdict": "GOOD"
+        },
+        "relevance": 9.0
+      },
+      {
+        "version": "Full + 101",
+        "idea_idx": 7,
+        "alpha_id": "fe385b6a",
+        "idea": "Tôi quan sát thấy giá vẫn tăng nhưng mức tăng giảm dần. Xu hướng có dấu hiệu suy yếu. Hãy triển khai một tín hiệu giao dịch dựa trên quan sát này",
+        "metrics": {
+          "ic": 0.018341,
+          "sharpe": 2.978963,
+          "max_drawdown": -0.0692,
+          "win_rate": 0.5778,
+          "valid_ratio": 0.9184,
+          "verdict": "GOOD"
+        },
+        "relevance": 8.5
+      },
+      {
+        "version": "Full + 101",
+        "idea_idx": 8,
+        "alpha_id": "0c093904",
+        "idea": "Tôi quan sát thấy giá chạm dải trên Bollinger. Cổ phiếu có thể bị mua quá mức. Hãy triển khai một tín hiệu giao dịch dựa trên quan sát này",
+        "metrics": {
+          "ic": 0.045048,
+          "sharpe": 7.251999,
+          "max_drawdown": -0.0263,
+          "win_rate": 0.6889,
+          "valid_ratio": 0.9184,
+          "verdict": "GOOD"
+        },
+        "relevance": 8.5
+      },
+      {
+        "version": "Full + 101",
+        "idea_idx": 9,
+        "alpha_id": "d0282d2a",
+        "idea": "Tôi quan sát thấy giá chạm dải dưới Bollinger. Cổ phiếu có thể bị bán quá mức. Hãy triển khai một tín hiệu giao dịch dựa trên quan sát này",
+        "metrics": {
+          "ic": 0.104789,
+          "sharpe": 16.119539,
+          "max_drawdown": -0.0108,
+          "win_rate": 0.8667,
+          "valid_ratio": 0.9184,
+          "verdict": "GOOD"
+        },
+        "relevance": 9.5
+      },
+      {
+        "version": "Full + 101",
+        "idea_idx": 10,
+        "alpha_id": "4b4d744c",
+        "idea": "Tôi quan sát thấy giá giảm mạnh bất thường trong 1 phiên. Có thể là panic selling. Hãy triển khai một tín hiệu giao dịch dựa trên quan sát này",
+        "metrics": {
+          "ic": 0.052808,
+          "sharpe": 8.623114,
+          "max_drawdown": -0.0385,
+          "win_rate": 0.722,
+          "valid_ratio": 0.9102,
+          "verdict": "GOOD"
+        },
+        "relevance": 9.0
+      }
+    ]
+  }
+}

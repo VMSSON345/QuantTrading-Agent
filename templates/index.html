@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuantAgent Vietnam</title>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)'],['$','$']],
+    displayMath: [['\\[','\\]'],['$$','$$']]
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f1117;--surface:#1a1d27;--border:#2d3147;--text:#e2e8f0;
+    --muted:#94a3b8;--primary:#38bdf8;--success:#4ade80;--warning:#fbbf24;
+    --error:#f87171;--font:'Inter',sans-serif
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden}
+  #sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+  .logo{padding:20px 16px;border-bottom:1px solid var(--border);font-size:18px;font-weight:700;color:var(--primary)}
+  .logo span{font-size:11px;font-weight:400;color:var(--muted);display:block;margin-top:2px}
+  nav{padding:12px 8px;flex:1}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;color:var(--muted);font-size:14px;font-weight:500;transition:all .2s;margin-bottom:2px}
+  .nav-item:hover{background:rgba(56,189,248,.08);color:var(--text)}
+  .nav-item.active{background:rgba(56,189,248,.15);color:var(--primary)}
+  .nav-icon{font-size:18px;width:20px;text-align:center}
+  #main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+  #topbar{height:52px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px}
+  #topbar h1{font-size:15px;font-weight:600;flex:1}
+  .badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+  .badge-green{background:rgba(74,222,128,.15);color:var(--success)}
+  #content{flex:1;overflow-y:auto;padding:20px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
+  .card-title{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px}
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px}
+  .kpi-label{font-size:11px;color:var(--muted);font-weight:500;margin-bottom:6px}
+  .kpi-value{font-size:24px;font-weight:700}
+  .kpi-value.green{color:var(--success)}
+  .kpi-value.blue{color:var(--primary)}
+  .kpi-value.yellow{color:var(--warning)}
+  textarea,input,select{background:#0f1117;border:1px solid var(--border);color:var(--text);padding:10px 14px;border-radius:8px;font-family:var(--font);font-size:14px;outline:none;width:100%;transition:border-color .2s}
+  textarea:focus,input:focus,select:focus{border-color:var(--primary)}
+  textarea{resize:vertical;min-height:90px}
+  .btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-family:var(--font);font-size:14px;font-weight:600;transition:all .2s}
+  .btn-primary{background:var(--primary);color:#000}
+  .btn-primary:hover{opacity:.85}
+  .btn-primary:disabled{opacity:.5;cursor:not-allowed}
+  .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+  .btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+  .log-panel{background:#0a0d14;border:1px solid var(--border);border-radius:8px;padding:14px;font-family:'JetBrains Mono',monospace;font-size:12px;height:200px;overflow-y:auto;color:var(--muted)}
+  .log-entry{margin-bottom:4px;line-height:1.5}
+  .log-entry.info{color:#7dd3fc}
+  .log-entry.success{color:var(--success)}
+  .log-entry.error{color:var(--error)}
+  .log-entry.warn{color:var(--warning)}
+  pre{background:#0a0d14;border:1px solid var(--border);border-radius:8px;padding:14px;font-size:12px;overflow-x:auto;max-height:300px;overflow-y:auto}
+  code{font-family:'JetBrains Mono',monospace;color:#a5d6ff}
+  #formula-section{margin-top:16px}
+  #formula-section .formula-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+  #formula-display{background:#0a0d14;border:1px solid var(--border);border-radius:8px;padding:24px 28px;font-size:17px;text-align:center;color:#e2e8f0;min-height:72px;overflow-x:auto;line-height:2.2;display:flex;align-items:center;justify-content:center}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--muted);font-weight:500;font-size:11px;text-transform:uppercase}
+  td{padding:10px 14px;border-bottom:1px solid rgba(45,49,71,.5);vertical-align:middle}
+  tr:hover td{background:rgba(56,189,248,.04)}
+  .chip{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
+  .chip-green{background:rgba(74,222,128,.15);color:var(--success)}
+  .chip-blue{background:rgba(56,189,248,.15);color:var(--primary)}
+  .chip-red{background:rgba(248,113,113,.15);color:var(--error)}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  label{font-size:13px;color:var(--muted);margin-bottom:6px;display:block;font-weight:500}
+  .form-group{margin-bottom:14px}
+  .hidden{display:none!important}
+  .flex{display:flex}.gap-2{gap:8px}.mt-4{margin-top:16px}.mb-4{margin-bottom:16px}
+  .justify-between{justify-content:space-between}.items-center{align-items:center}
+  .text-muted{color:var(--muted);font-size:13px}
+  .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .empty-cell{text-align:center;padding:32px!important;color:var(--muted)}
+  .interp-box{background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.2);border-radius:10px;padding:20px;line-height:1.8;font-size:14px}
+  .interp-box .interp-label{font-size:11px;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;display:block}
+  .interp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  .interp-section{background:#0a0d14;border:1px solid var(--border);border-radius:8px;padding:14px}
+  .interp-section h4{font-size:12px;color:var(--primary);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+  .interp-section ul{padding-left:18px;color:var(--text)}
+  .interp-section li{margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<aside id="sidebar">
+  <div class="logo">&#9889; QuantAgent<span>Vietnam v1.0</span></div>
+  <nav>
+    <div class="nav-item active" data-page="mining" onclick="navigate(this)"><span class="nav-icon">&#9935;&#65039;</span> Alpha Mining</div>
+    <div class="nav-item" data-page="kb" onclick="navigate(this)"><span class="nav-icon">&#128218;</span> Knowledge Base</div>
+    <div class="nav-item" data-page="predict" onclick="navigate(this)"><span class="nav-icon">&#128302;</span> Market Prediction</div>
+    <div class="nav-item" data-page="tracker" onclick="navigate(this)"><span class="nav-icon">&#128200;</span> Self-Improvement</div>
+  </nav>
+  <div style="padding:12px 16px;border-top:1px solid var(--border)">
+    <div class="text-muted" id="api-status">
+      <span class="status-dot">&#9679;</span>
+      <span id="api-status-text">Đang kết nối...</span>
+    </div>
+  </div>
+</aside>
+
+<main id="main">
+  <div id="topbar">
+    <h1 id="page-title">Alpha Mining</h1>
+    <span class="badge badge-green" id="kb-count-badge">KB: 0 alphas</span>
+  </div>
+  <div id="content">
+
+    <!-- PAGE: ALPHA MINING -->
+    <div id="page-mining">
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">IC (mean)</div><div class="kpi-value blue" id="kpi-ic">&mdash;</div></div>
+        <div class="kpi"><div class="kpi-label">Sharpe Ratio</div><div class="kpi-value green" id="kpi-sharpe">&mdash;</div></div>
+        <div class="kpi"><div class="kpi-label">Win Rate</div><div class="kpi-value yellow" id="kpi-wr">&mdash;</div></div>
+        <div class="kpi"><div class="kpi-label">Valid Ratio</div><div class="kpi-value" id="kpi-vr">&mdash;</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">&#128161; Ý tưởng giao dịch</div>
+          <div class="form-group">
+            <label>Mô tả ý tưởng alpha</label>
+            <textarea id="idea-input" placeholder="Ví dụ: Cổ phiếu có volume đột biến so với trung bình 20 ngày và giá đóng cửa cao hơn giá mở cửa thường tăng trong 5 ngày tới..."></textarea>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Inner Loop (T)</label>
+              <select id="max-inner">
+                <option value="1">1</option><option value="2">2</option>
+                <option value="3" selected>3</option><option value="4">4</option><option value="5">5</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Outer Loop (K)</label>
+              <select id="max-outer">
+                <option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="runMining()" id="mine-btn">&#9935;&#65039; Khai thác Alpha</button>
+        </div>
+        <div class="card">
+          <div class="card-title">&#128203; Log hệ thống</div>
+          <div class="log-panel" id="mining-log"></div>
+        </div>
+      </div>
+
+      <div class="card mt-4 hidden" id="result-card">
+        <div class="flex justify-between items-center mb-4">
+          <div class="card-title" style="margin-bottom:0">&#9889; Alpha Code được sinh</div>
+          <div id="added-kb-badge"></div>
+        </div>
+        <pre><code id="alpha-code-out"></code></pre>
+        <div id="formula-section" class="hidden">
+          <div class="formula-label">&#128208; Công thức toán học</div>
+          <div id="formula-display"></div>
+        </div>
+        <div id="backtest-chart" class="mt-4" style="height:280px"></div>
+      </div>
+
+      <div class="card mt-4 hidden" id="interp-card">
+        <div class="card-title">&#129302; Phân tích &amp; Khuyến nghị</div>
+        <div class="interp-box">
+          <span class="interp-label">&#128200; Đánh giá alpha factor</span>
+          <div id="interp-text" style="white-space:pre-line;color:var(--text)"></div> 
+          <div class="interp-grid">
+            <div class="interp-section"><h4>Độ bám idea</h4><div id="interp-idea"></div></div>
+            <div class="interp-section"><h4>Giải thích công thức</h4><div id="interp-formula"></div></div>
+            <div class="interp-section"><h4>Đọc backtest</h4><div id="interp-backtest"></div></div>
+            <div class="interp-section"><h4>Rủi ro chính</h4><ul id="interp-risks"></ul></div>
+            <div class="interp-section"><h4>Khuyến nghị</h4><ul id="interp-actions"></ul></div>
+            <div class="interp-section"><h4>Hướng cải thiện</h4><ul id="interp-improvements"></ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: KB EXPLORER -->
+    <div id="page-kb" class="hidden">
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex gap-2 items-center">
+          <input type="number" id="kb-min-ic" placeholder="Min IC" step="0.01" style="width:110px" value="0">
+          <button class="btn btn-outline" onclick="loadKB()">&#128260; Tải lại</button>
+        </div>
+        <span class="text-muted" id="kb-total-text"></span>
+      </div>
+      <div class="card">
+        <table>
+          <thead><tr><th>ID</th><th>Ý tưởng</th><th>IC</th><th>Sharpe</th><th>Win Rate</th><th>Judge</th><th>Ngày tạo</th><th></th></tr></thead>
+          <tbody id="kb-table-body"></tbody>
+        </table>
+      </div>
+      <div id="kb-preview" class="card mt-4 hidden">
+        <div class="card-title">&#128269; Preview Alpha Code</div>
+        <pre><code id="kb-code-preview"></code></pre>
+        <p class="text-muted mt-4" id="kb-review-comment"></p>
+      </div>
+    </div>
+
+    <!-- PAGE: PREDICTION -->
+<div id="page-predict" class="hidden">
+
+  <!-- INPUT + RESULT -->
+    <div class="grid-2 mb-4">
+
+      <div class="card">
+        <div class="card-title">Dự báo cổ phiếu</div>
+
+        <div class="form-group">
+          <label>Mã cổ phiếu</label>
+          <select id="pred-symbol"></select>
+        </div>
+
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="pred-retrain" style="width:auto;margin-right:6px">
+            Huấn luyện lại mô hình
+          </label>
+        </div>
+
+        <button class="btn btn-primary" onclick="runPredict()">Chạy dự báo</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Kết quả dự báo</div>
+        <div id="predict-result">
+          <p class="text-muted">Chọn cổ phiếu và chạy dự báo</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BUCKET -->
+    <div class="card">
+      <div class="card-title">Hiệu suất theo nhóm cổ phiếu</div>
+      <div id="bucket-chart" style="height:280px"></div>
+      <div class="text-muted mt-2">
+        Nhóm 5: cổ phiếu tốt nhất • Nhóm 1: cổ phiếu yếu nhất
+      </div>
+    </div>
+
+    <!-- TOP / BOTTOM -->
+    <div class="grid-2 mt-4">
+
+      <div class="card">
+        <div class="card-title">Cổ phiếu nên mua</div>
+        <div id="top-list"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Cổ phiếu yếu</div>
+        <div id="bottom-list"></div>
+      </div>
+
+    </div>
+
+  
+   
+    
+
+</div>
+
+    <!-- PAGE: SELF-IMPROVEMENT -->
+    <div id="page-tracker" class="hidden">
+      <div class="kpi-grid mb-4">
+        <div class="kpi"><div class="kpi-label">Tổng Alpha</div><div class="kpi-value blue" id="tr-total">&mdash;</div></div>
+        <div class="kpi"><div class="kpi-label">IC trung bình</div><div class="kpi-value green" id="tr-avg-ic">&mdash;</div></div>
+        <div class="kpi"><div class="kpi-label">Sharpe trung bình</div><div class="kpi-value yellow" id="tr-avg-sharpe">&mdash;</div></div>
+        <div class="kpi"><div class="kpi-label">IC tốt nhất</div><div class="kpi-value" id="tr-best-ic">&mdash;</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-title">&#128200; IC phân phối</div><div id="ic-dist-chart" style="height:260px"></div></div>
+        <div class="card"><div class="card-title">&#127919; Sharpe vs IC</div><div id="scatter-chart" style="height:260px"></div></div>
+      </div>
+      <div class="card mt-4">
+        <div class="card-title">&#128197; KB tăng trưởng theo thời gian</div>
+        <div id="growth-chart" style="height:260px"></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+const API = "http://127.0.0.1:8900/api";
+let kbData = [];
+
+function navigate(el) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+  const page = el.dataset.page;
+  document.querySelectorAll('#content > div[id^="page-"]').forEach(d => d.classList.add('hidden'));
+  document.getElementById('page-' + page).classList.remove('hidden');
+  const titles = {mining:'Alpha Mining', kb:'Knowledge Base', predict:'Market Prediction', tracker:'Self-Improvement'};
+  document.getElementById('page-title').textContent = titles[page];
+  if (page === 'kb')      loadKB();
+  if (page === 'predict') loadSymbols();
+  if (page === 'tracker') loadTracker();
+}
+
+async function checkAPI() {
+  try {
+    const r = await fetch(API + '/health');
+    if (r.ok) {
+      document.getElementById('api-status').textContent = '● API Connected';
+      document.getElementById('api-status').style.color = 'var(--success)';
+      const stats = await fetch(API + '/kb/stats').then(r => r.json());
+      document.getElementById('kb-count-badge').textContent = 'KB: ' + stats.total + ' alphas';
+    }
+  } catch {
+    document.getElementById('api-status').textContent = '● API Offline';
+    document.getElementById('api-status').style.color = 'var(--error)';
+  }
+}
+
+function appendLog(msg, type) {
+  type = type || 'info';
+  const el = document.getElementById('mining-log');
+  const d  = document.createElement('div');
+  d.className = 'log-entry ' + type;
+  d.textContent = '[' + new Date().toLocaleTimeString('vi-VN') + '] ' + msg;
+  el.appendChild(d);
+  el.scrollTop = el.scrollHeight;
+}
+
+function renderLatex(latexStr) {
+  const fSection = document.getElementById('formula-section');
+  const fDisplay = document.getElementById('formula-display');
+  if (!latexStr || !latexStr.trim()) { fSection.classList.add('hidden'); return; }
+  let tex = latexStr.trim();
+  tex = tex.replace(/^\$\$([\s\S]+)\$\$$/, '$1');
+  tex = tex.replace(/^\$([\s\S]+)\$$/, '$1');
+  tex = tex.replace(/^\\\[([\s\S]+)\\\]$/, '$1');
+  tex = tex.trim();
+  fDisplay.innerHTML = '\\[' + tex + '\\]';
+  fSection.classList.remove('hidden');
+  function doTypeset() {
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      MathJax.typesetPromise([fDisplay]).catch(err => console.warn('MathJax:', err));
+    }
+  }
+  if (window.MathJax && window.MathJax.typesetPromise) doTypeset();
+  else setTimeout(doTypeset, 600);
+}
+
+async function runMining() {
+  const idea = document.getElementById('idea-input').value.trim();
+  if (!idea) { alert('Hãy nhập ý tưởng giao dịch'); return; }
+
+  const maxInner = +document.getElementById('max-inner').value;
+  const maxOuter = +document.getElementById('max-outer').value;
+
+  const btn = document.getElementById('mine-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Đang khai thác...';
+  document.getElementById('result-card').classList.add('hidden');
+  document.getElementById('interp-card').classList.add('hidden');
+  document.getElementById('formula-section').classList.add('hidden');
+  document.getElementById('mining-log').innerHTML = '';
+
+  // ── Fake progress log ──────────────────────────────────────
+  const secPerInner = 15;
+  const secPerOuter = maxInner * secPerInner + 5;
+  const totalSec    = maxOuter * secPerOuter + 10;
+
+  const steps = [{ ms: 0, type: 'info', msg: 'Khởi động hệ thống...' }];
+  for (let k = 1; k <= maxOuter; k++) {
+    const baseMs = (k - 1) * secPerOuter * 1000;
+    steps.push({ ms: baseMs + 800,  type: 'info',    msg: 'Outer Loop K=' + k + ': bắt đầu...' });
+    for (let t = 1; t <= maxInner; t++) {
+      const tBase = baseMs + t * secPerInner * 1000;
+      steps.push({ ms: tBase,         type: 'info',    msg: '  Inner T=' + t + '/' + maxInner + ': LLM đang viết alpha code...' });
+      steps.push({ ms: tBase + 3000,  type: 'info',    msg: '  Biên dịch và kiểm tra cú pháp...' });
+      steps.push({ ms: tBase + 7000,  type: 'info',    msg: '  Chạy backtest trên dữ liệu VN...' });
+      steps.push({ ms: tBase + 12000, type: 'warn',    msg: '  Tính IC, Sharpe, Win Rate...' });
+    }
+    steps.push({ ms: baseMs + secPerOuter * 1000 - 1000, type: 'success', msg: '  Outer K=' + k + ': hoàn tất vòng lặp' });
+  }
+  steps.push({ ms: (totalSec - 5) * 1000, type: 'info', msg: 'AlphaInterpreter đang phân tích kết quả...' });
+  steps.push({ ms: (totalSec - 2) * 1000, type: 'info', msg: 'Kiểm tra ngưỡng Knowledge Base...' });
+
+  const timers = steps.map(({ ms, type, msg }) => setTimeout(() => appendLog(msg, type), ms));
+  // ──────────────────────────────────────────────────────────
+
+  try {
+    const res = await fetch(API + '/alpha/mine', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idea, max_inner_iter: maxInner, max_outer_iter: maxOuter })
+    });
+    timers.forEach(clearTimeout);
+
+    const data = await res.json();
+    if (!data.success) { appendLog('Lỗi: ' + data.error, 'error'); return; }
+
+    appendLog('Hoàn tất! IC=' + (data.metrics?.ic?.toFixed(4) || '?') + ' | Sharpe=' + (data.metrics?.sharpe?.toFixed(4) || '?'), 'success');
+    if (data.added_to_kb) appendLog('Đã lưu vào Knowledge Base', 'success');
+    else appendLog('IC không đủ ngưỡng, không lưu KB', 'warn');
+    (data.outer_history || []).forEach(h =>
+      appendLog('Outer K=' + h.k + ': IC=' + (h.ic||0).toFixed(4) + ' Sharpe=' + (h.sharpe||0).toFixed(4), 'info')
+    );
+
+    if (data.metrics) {
+      const m = data.metrics;
+      document.getElementById('kpi-ic').textContent     = m.ic     != null ? m.ic.toFixed(4)                : '—';
+      document.getElementById('kpi-sharpe').textContent = m.sharpe != null ? m.sharpe.toFixed(4)             : '—';
+      document.getElementById('kpi-wr').textContent     = m.win_rate    ? (m.win_rate*100).toFixed(1)+'%'    : '—';
+      document.getElementById('kpi-vr').textContent     = m.valid_ratio ? (m.valid_ratio*100).toFixed(1)+'%' : '—';
+    }
+
+    document.getElementById('alpha-code-out').textContent = data.code || '';
+    renderLatex(data.latex || '');
+
+    const interp = data.interpretation || '';
+    const interpPayload = data.interpretation_payload || {};
+    const interpCard = document.getElementById('interp-card');
+    if (interp.trim()) {
+      document.getElementById('interp-text').textContent = interp;
+      document.getElementById('interp-idea').textContent = interpPayload.idea_alignment || 'Chưa có phân tích độ bám idea.';
+      document.getElementById('interp-formula').textContent = interpPayload.formula_explanation || 'Chưa có giải thích công thức.';
+      document.getElementById('interp-backtest').textContent = interpPayload.backtest_reading || 'Chưa có diễn giải backtest.';
+      document.getElementById('interp-risks').innerHTML = (interpPayload.risks || []).map(x => '<li>' + x + '</li>').join('') || '<li>Chưa có rủi ro nổi bật.</li>';
+      document.getElementById('interp-actions').innerHTML = (interpPayload.actions || []).map(x => '<li>' + x + '</li>').join('') || '<li>Chưa có khuyến nghị.</li>';
+      document.getElementById('interp-improvements').innerHTML = (interpPayload.improvements || []).map(x => '<li>' + x + '</li>').join('') || '<li>Chưa có hướng cải thiện.</li>';
+      interpCard.classList.remove('hidden');
+    } else {
+      interpCard.classList.add('hidden');
+    }
+
+    document.getElementById('added-kb-badge').innerHTML = data.added_to_kb
+      ? '<span class="chip chip-green">Đã lưu KB</span>'
+      : '<span class="chip chip-red">Không lưu</span>';
+    document.getElementById('result-card').classList.remove('hidden');
+
+    if (data.outer_history && data.outer_history.length) {
+      Plotly.newPlot('backtest-chart',
+        [{ x: data.outer_history.map(h => 'K' + h.k),
+           y: data.outer_history.map(h => h.ic || 0),
+           type: 'bar', marker: { color: 'rgba(56,189,248,.7)' } }],
+        { paper_bgcolor:'transparent', plot_bgcolor:'transparent',
+          font:{color:'#94a3b8',size:11}, xaxis:{color:'#94a3b8'},
+          yaxis:{color:'#94a3b8',title:'IC'}, margin:{t:10,b:30,l:50,r:10} },
+        { responsive: true }
+      );
+    }
+    checkAPI();
+
+  } catch(e) {
+    timers.forEach(clearTimeout);
+    appendLog('Lỗi kết nối API: ' + e, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '&#9935;&#65039; Khai thác Alpha';
+  }
+}
+
+async function loadKB() {
+  const minIC = document.getElementById('kb-min-ic').value || 0;
+  try {
+    const data = await fetch(API + '/kb/list?min_ic=' + minIC + '&top_k=100').then(r => r.json());
+    kbData = data.alphas || [];
+    document.getElementById('kb-total-text').textContent = 'Tổng: ' + data.total + ' alpha';
+    const tbody = document.getElementById('kb-table-body');
+    tbody.innerHTML = '';
+    if (!kbData.length) {
+      tbody.innerHTML = '<tr><td colspan="8" class="empty-cell">📭 Chưa có alpha — hãy thử mining!</td></tr>';
+      return;
+    }
+    kbData.forEach(a => {
+      const ic = a.metrics.ic;
+      const icChip = ic >= 0.05 ? 'chip-green' : ic >= 0.02 ? 'chip-blue' : 'chip-red';
+      tbody.insertAdjacentHTML('beforeend',
+        '<tr onclick="previewAlpha(\'' + a.alpha_id + '\')">'
+        + '<td><code style="font-size:11px">' + a.alpha_id + '</code></td>'
+        + '<td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + a.idea + '">' + a.idea.slice(0,80) + '</td>'
+        + '<td><span class="chip ' + icChip + '">' + ic.toFixed(4) + '</span></td>'
+        + '<td>' + a.metrics.sharpe.toFixed(3) + '</td>'
+        + '<td>' + (a.metrics.win_rate*100).toFixed(1) + '%</td>'
+        + '<td>' + a.judge_score.toFixed(1) + '/10</td>'
+        + '<td style="font-size:11px;color:var(--muted)">' + a.created_at.slice(0,10) + '</td>'
+        + '<td><button class="btn btn-outline" style="padding:4px 10px;font-size:11px" onclick="event.stopPropagation();previewAlpha(\'' + a.alpha_id + '\')">👁</button></td>'
+        + '</tr>'
+      );
+    });
+  } catch(e) { console.error(e); }
+}
+
+function previewAlpha(id) {
+  const a = kbData.find(x => x.alpha_id === id);
+  if (!a) return;
+  document.getElementById('kb-code-preview').textContent   = a.code || '';
+  document.getElementById('kb-review-comment').textContent = a.review_comment || '';
+  const prev = document.getElementById('kb-preview');
+  prev.classList.remove('hidden');
+  prev.scrollIntoView({ behavior: 'smooth' });
+}
+
+async function loadSymbols() {
+  try {
+    const data = await fetch(API + '/alpha/symbols').then(r => r.json());
+    const sel  = document.getElementById('pred-symbol');
+    sel.innerHTML = (data.symbols && data.symbols.length)
+      ? data.symbols.map(s => '<option value="' + s + '">' + s + '</option>').join('')
+      : '<option>Chưa có dữ liệu CSV</option>';
+  } catch {}
+}
+
+async function runPredict() {
+  const symbol  = document.getElementById('pred-symbol').value;
+  const retrain = document.getElementById('pred-retrain').checked;
+
+  if (!symbol) return;
+
+  document.getElementById('predict-result').innerHTML =
+    '<span class="spinner"></span> Đang dự báo...';
+
+  try {
+    const data = await fetch(API + '/predict/run', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ symbol, retrain })
+    }).then(r => r.json());
+
+    if (data.error) {
+      document.getElementById('predict-result').innerHTML =
+        '<p style="color:var(--error)">' + data.error + '</p>';
+      return;
+    }
+
+    renderPredictUI(data);
+
+  } catch(e) {
+    document.getElementById('predict-result').innerHTML =
+      '<p style="color:var(--error)">Lỗi: ' + e + '</p>';
+  }
+}
+
+function renderPredictUI(data) {
+
+  const pct  = (data.predicted_return_5d * 100).toFixed(2);
+  const rank = (data.rank_pct * 100).toFixed(1);
+  const clr  = data.predicted_return_5d >= 0 ? 'var(--success)' : 'var(--error)';
+
+  document.getElementById('predict-result').innerHTML = `
+    <div class="kpi">
+      <div class="kpi-label">Lợi nhuận dự báo (5 ngày)</div>
+      <div class="kpi-value" style="color:${clr}">${pct}%</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">Xếp hạng thị trường</div>
+      <div class="kpi-value">${rank}%</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">Nhóm cổ phiếu</div>
+      <div class="kpi-value">${data.bucket}</div>
+    </div>
+  `;
+
+  renderTopBottom(data);
+  renderBucket(data);
+  renderStats(data);
+  //renderTop10Compare(data);
+  //renderAccuracy(data);
+}
+
+function renderTop10Compare(data) {
+  if (!data.top10_compare || data.top10_compare.length === 0) return;
+
+  const stocks = data.top10_compare.map(d => d.stock);
+  const pred   = data.top10_compare.map(d => d.pred);
+  const actual = data.top10_compare.map(d => d.actual);
+
+  Plotly.newPlot('top10Chart', [
+    { x: stocks, y: pred, name: 'Dự đoán', type: 'bar' },
+    { x: stocks, y: actual, name: 'Thực tế', type: 'bar' }
+  ], {
+    barmode: 'group'
+  });
+}
+
+function renderLAccuracy(data) {
+  if (data.long_accuracy === undefined) return;
+
+  const acc = (data.long_accuracy * 100).toFixed(1);
+
+  document.getElementById('accL-box').innerHTML = acc + "%";
+}
+
+function renderSAccuracy(data) {
+  if (data.short_accuracy === undefined) return;
+
+  const acc = (data.short_accuracy * 100).toFixed(1);
+
+  document.getElementById('accS-box').innerHTML = acc + "%";
+}
+
+
+function renderAccuracy(data) {
+  if (data.accuracy === undefined) return;
+
+  const acc = (data.accuracy * 100).toFixed(1);
+
+  document.getElementById('acc-box').innerHTML = acc + "%";
+}
+
+function renderTopBottom(data) {
+  const top = data.top_picks || [];
+  const bot = data.bottom_picks || [];
+
+  document.getElementById('top-list').innerHTML =
+    top.map(x => `
+      <div class="row-item">
+        <span>${x.stock}</span>
+        <span style="color:var(--success)">
+          ${(x.predicted_return_5d*100).toFixed(2)}%
+        </span>
+      </div>
+    `).join('');
+
+  document.getElementById('bottom-list').innerHTML =
+    bot.map(x => `
+      <div class="row-item">
+        <span>${x.stock}</span>
+        <span style="color:var(--error)">
+          ${(x.predicted_return_5d*100).toFixed(2)}%
+        </span>
+      </div>
+    `).join('');
+}
+
+function renderBucket(data) {
+  if (!data.bucket_stats || !data.bucket_stats.bucket_returns) return;
+
+  const y = data.bucket_stats.bucket_returns;
+
+  Plotly.newPlot('bucket-chart', [{
+    x: ['Nhóm 1', 'Nhóm 2', 'Nhóm 3', 'Nhóm 4', 'Nhóm 5'],
+    y: y,
+    type: 'bar'
+  }], {
+    title: 'Hiệu suất theo nhóm',
+    paper_bgcolor:'transparent',
+    plot_bgcolor:'transparent',
+    font:{color:'#94a3b8'}
+  });
+}
+
+function renderStats(data) {
+  const ic  = data.corr_summary?.ic_mean || 0;
+  const ls  = data.bucket_stats?.long_short || 0;
+
+  const div = document.createElement('div');
+  div.innerHTML = `
+    <div class="kpi">
+      <div class="kpi-label">Độ tương quan (IC)</div>
+      <div class="kpi-value">${ic.toFixed(4)}</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">Chênh lệch Long-Short</div>
+      <div class="kpi-value">${ls.toFixed(4)}</div>
+    </div>
+  `;
+
+  document.getElementById('predict-result').appendChild(div);
+}
+
+async function loadTracker() {
+  try {
+    const [stats, list] = await Promise.all([
+      fetch(API + '/kb/stats').then(r => r.json()),
+      fetch(API + '/kb/list?top_k=200').then(r => r.json()),
+    ]);
+    document.getElementById('tr-total').textContent      = stats.total;
+    document.getElementById('tr-avg-ic').textContent     = (stats.avg_ic     || 0).toFixed(4);
+    document.getElementById('tr-avg-sharpe').textContent = (stats.avg_sharpe || 0).toFixed(4);
+    document.getElementById('tr-best-ic').textContent    = (stats.best_ic    || 0).toFixed(4);
+    const alphas = list.alphas || [];
+    if (!alphas.length) return;
+    const ics    = alphas.map(a => a.metrics.ic);
+    const sharpes= alphas.map(a => a.metrics.sharpe);
+    const ideas  = alphas.map(a => a.idea.slice(0,40));
+    Plotly.newPlot('ic-dist-chart',
+      [{ x:ics, type:'histogram', marker:{color:'rgba(56,189,248,.6)',line:{color:'rgba(56,189,248,1)',width:1}} }],
+      { paper_bgcolor:'transparent',plot_bgcolor:'transparent',font:{color:'#94a3b8',size:11},
+        xaxis:{color:'#94a3b8',title:'IC'}, yaxis:{color:'#94a3b8',title:'Số lượng'},
+        bargap:0.05, margin:{t:10,b:40,l:50,r:10} }, { responsive:true });
+    Plotly.newPlot('scatter-chart',
+      [{ x:ics, y:sharpes, text:ideas, mode:'markers', type:'scatter',
+         marker:{size:8,color:'rgba(56,189,248,.7)',line:{color:'rgba(56,189,248,1)',width:1}} }],
+      { paper_bgcolor:'transparent',plot_bgcolor:'transparent',font:{color:'#94a3b8',size:11},
+        xaxis:{color:'#94a3b8',title:'IC'}, yaxis:{color:'#94a3b8',title:'Sharpe'},
+        margin:{t:10,b:40,l:50,r:10} }, { responsive:true });
+    const sorted = [...alphas].sort((a,b) => a.created_at.localeCompare(b.created_at));
+    Plotly.newPlot('growth-chart',
+      [{ x:sorted.map(a => a.created_at.slice(0,10)), y:sorted.map((_,i) => i+1),
+         type:'scatter', mode:'lines+markers',
+         line:{color:'rgba(74,222,128,.8)',width:2}, marker:{size:6,color:'rgba(74,222,128,.8)'} }],
+      { paper_bgcolor:'transparent',plot_bgcolor:'transparent',font:{color:'#94a3b8',size:11},
+        xaxis:{color:'#94a3b8',title:'Ngày'}, yaxis:{color:'#94a3b8',title:'Tổng Alpha'},
+        margin:{t:10,b:40,l:50,r:10} }, { responsive:true });
+  } catch(e) { console.error(e); }
+}
+
+checkAPI();
+setInterval(checkAPI, 30000);
+</script>
+</body>
+</html>

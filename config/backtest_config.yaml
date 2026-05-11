@@ -1,0 +1,19 @@
+# Cấu hình Backtest Engine
+
+engine:
+  forward_days: 5           # Số ngày dự báo phía trước
+  ic_method: pearson        # pearson | spearman
+  min_symbols_per_day: 10   # Bỏ ngày có ít hơn n symbol hợp lệ
+
+evaluation:
+  annualize_factor: 252     # Số ngày giao dịch trong năm (chuẩn VN)
+  sharpe_rf_rate: 0.05      # Lãi suất phi rủi ro (5% VN)
+  min_valid_ratio: 0.3      # Valid ratio tối thiểu để tính IC
+
+thresholds:
+  ic_excellent: 0.05
+  ic_good: 0.02
+  ic_poor: 0.01
+  sharpe_excellent: 2.0
+  sharpe_good: 1.0
+  win_rate_good: 0.55

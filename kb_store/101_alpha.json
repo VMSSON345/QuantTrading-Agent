@@ -1,0 +1,929 @@
+[
+  {
+    "id": "Alpha#1",
+    "inputs": [
+      "close"
+    ],
+    "code": "returns = close.pct_change(); base = returns.where(returns < 0, close); signed_power = base ** 2; signal = signed_power.rolling(5).apply(np.argmax, raw=True).rank(axis=1, pct=True) - 0.5"
+  },
+  {
+    "id": "Alpha#2",
+    "inputs": [
+      "close",
+      "open",
+      "volume"
+    ],
+    "code": "returns = close.pct_change(); signal = -1 * np.log(volume.replace(0, np.nan)).diff(2).rank(axis=1, pct=True).rolling(6).corr(((close - open) / open.replace(0, np.nan)).rank(axis=1, pct=True))"
+  },
+  {
+    "id": "Alpha#3",
+    "inputs": [
+      "open",
+      "volume"
+    ],
+    "code": "signal = -1 * open.rank(axis=1, pct=True).rolling(10).corr(volume.rank(axis=1, pct=True))"
+  },
+  {
+    "id": "Alpha#4",
+    "inputs": [
+      "low"
+    ],
+    "code": "signal = -1 * low.rank(axis=1, pct=True).rolling(9).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True)"
+  },
+  {
+    "id": "Alpha#5",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low"
+    ],
+    "code": "vwap = (high + low + close) / 3; term1 = (open - vwap.rolling(10).mean()).rank(axis=1, pct=True); term2 = -1 * (close - vwap).rank(axis=1, pct=True).abs(); signal = term1 * term2"
+  },
+  {
+    "id": "Alpha#6",
+    "inputs": [
+      "open",
+      "volume"
+    ],
+    "code": "signal = -1 * open.rolling(10).corr(volume)"
+  },
+  {
+    "id": "Alpha#7",
+    "inputs": [
+      "close",
+      "volume"
+    ],
+    "code": "adv20 = volume.rolling(20).mean(); d7 = close.diff(7); ts_r = d7.abs().rolling(60).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); active = -1 * ts_r * np.sign(d7); signal = active.where(adv20 < volume, -1.0)"
+  },
+  {
+    "id": "Alpha#8",
+    "inputs": [
+      "open",
+      "close"
+    ],
+    "code": "returns = close.pct_change(); inner = open.rolling(5).sum() * returns.rolling(5).sum(); signal = -1 * (inner - inner.shift(10)).rank(axis=1, pct=True)"
+  },
+  {
+    "id": "Alpha#9",
+    "inputs": [
+      "close"
+    ],
+    "code": "d1 = close.diff(1); ts_min5 = d1.rolling(5).min(); ts_max5 = d1.rolling(5).max(); raw = np.where(ts_min5 > 0, d1, np.where(ts_max5 < 0, d1, -d1)); signal = pd.DataFrame(raw, index=close.index, columns=close.columns)"
+  },
+  {
+    "id": "Alpha#10",
+    "inputs": [
+      "close"
+    ],
+    "code": "d1 = close.diff(1); ts_min4 = d1.rolling(4).min(); ts_max4 = d1.rolling(4).max(); raw = np.where(ts_min4 > 0, d1, np.where(ts_max4 < 0, d1, -d1)); raw_df = pd.DataFrame(raw, index=close.index, columns=close.columns); signal = raw_df.rank(axis=1, pct=True)"
+  },
+  {
+    "id": "Alpha#11",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; diff = vwap - close; part1 = diff.rolling(3).max().rank(axis=1, pct=True); part2 = diff.rolling(3).min().rank(axis=1, pct=True); part3 = volume.diff(3).rank(axis=1, pct=True); signal = (part1 + part2) * part3"
+  },
+  {
+    "id": "Alpha#12",
+    "inputs": [
+      "close",
+      "volume"
+    ],
+    "code": "signal = np.sign(volume.diff(1)) * (-1 * close.diff(1))"
+  },
+  {
+    "id": "Alpha#13",
+    "inputs": [
+      "close",
+      "volume"
+    ],
+    "code": "signal = -1 * close.rank(axis=1, pct=True).rolling(5).cov(volume.rank(axis=1, pct=True)).rank(axis=1, pct=True)"
+  },
+  {
+    "id": "Alpha#14",
+    "inputs": [
+      "open",
+      "close",
+      "volume"
+    ],
+    "code": "returns = close.pct_change(); signal = (-1 * returns.diff(3).rank(axis=1, pct=True)) * open.rolling(10).corr(volume)"
+  },
+  {
+    "id": "Alpha#15",
+    "inputs": [
+      "high",
+      "volume"
+    ],
+    "code": "corr_hv = high.rank(axis=1, pct=True).rolling(3).corr(volume.rank(axis=1, pct=True)); signal = -1 * corr_hv.rank(axis=1, pct=True).rolling(3).sum()"
+  },
+  {
+    "id": "Alpha#16",
+    "inputs": [
+      "high",
+      "volume"
+    ],
+    "code": "signal = -1 * high.rank(axis=1, pct=True).rolling(5).cov(volume.rank(axis=1, pct=True)).rank(axis=1, pct=True)"
+  },
+  {
+    "id": "Alpha#17",
+    "inputs": [
+      "close",
+      "volume"
+    ],
+    "code": "adv20 = volume.rolling(20).mean(); ts_rank_close = close.rolling(10).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True).rank(axis=1, pct=True); delta2_close = close.diff(1).diff(1); rank_d2 = delta2_close.rank(axis=1, pct=True); vol_ratio = (volume / adv20.replace(0, np.nan)).rolling(5).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True).rank(axis=1, pct=True); signal = (-1 * ts_rank_close) * rank_d2 * vol_ratio"
+  },
+  {
+    "id": "Alpha#18",
+    "inputs": [
+      "close",
+      "open"
+    ],
+    "code": "diff_co = close - open; signal = -1 * (diff_co.abs().rolling(5).std() + diff_co + close.rolling(10).corr(open)).rank(axis=1, pct=True)"
+  },
+  {
+    "id": "Alpha#19",
+    "inputs": [
+      "close"
+    ],
+    "code": "returns = close.pct_change(); d7 = close - close.shift(7); part1 = -1 * np.sign(d7 + close.diff(7)); part2 = 1 + (1 + returns.rolling(250).sum()).rank(axis=1, pct=True); signal = part1 * part2"
+  },
+  {
+    "id": "Alpha#20",
+    "inputs": [
+      "open",
+      "high",
+      "close",
+      "low"
+    ],
+    "code": "r1 = (open - high.shift(1)).rank(axis=1, pct=True); r2 = (open - close.shift(1)).rank(axis=1, pct=True); r3 = (open - low.shift(1)).rank(axis=1, pct=True); signal = (-1 * r1) * r2 * r3"
+  },
+  {
+    "id": "Alpha#21",
+    "inputs": [
+      "close",
+      "volume"
+    ],
+    "code": "adv20 = volume.rolling(20).mean(); sma8 = close.rolling(8).mean(); std8 = close.rolling(8).std(); sma2 = close.rolling(2).mean(); cond1 = (sma8 + std8) < sma2; cond2 = sma2 < (sma8 - std8); cond3 = (volume / adv20.replace(0, np.nan)) >= 1; signal = pd.DataFrame(np.where(cond1, -1, np.where(cond2, 1, np.where(cond3, 1, -1))), index=close.index, columns=close.columns).astype(float)"
+  },
+  {
+    "id": "Alpha#22",
+    "inputs": [
+      "high",
+      "close",
+      "volume"
+    ],
+    "code": "signal = -1 * high.rolling(5).corr(volume).diff(5) * close.rolling(20).std().rank(axis=1, pct=True)"
+  },
+  {
+    "id": "Alpha#23",
+    "inputs": [
+      "high"
+    ],
+    "code": "sma20 = high.rolling(20).mean(); signal = pd.DataFrame(np.where(sma20 < high, -1 * high.diff(2), 0.0), index=high.index, columns=high.columns)"
+  },
+  {
+    "id": "Alpha#24",
+    "inputs": [
+      "close"
+    ],
+    "code": "sma100 = close.rolling(100).mean(); delta_sma = sma100.diff(100) / close.shift(100).replace(0, np.nan); cond = delta_sma <= 0.05; signal = pd.DataFrame(np.where(cond, -1 * (close - close.rolling(100).min()), -1 * close.diff(3)), index=close.index, columns=close.columns)"
+  },
+  {
+    "id": "Alpha#25",
+    "inputs": [
+      "close",
+      "high",
+      "volume"
+    ],
+    "code": "returns = close.pct_change(); adv20 = volume.rolling(20).mean(); vwap = close; signal = ((-1 * returns) * adv20 * vwap * (high - close)).rank(axis=1, pct=True)"
+  },
+  {
+    "id": "Alpha#26",
+    "inputs": [
+      "high",
+      "volume"
+    ],
+    "code": "ts_r_vol = volume.rolling(5).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); ts_r_high = high.rolling(5).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); corr_5 = ts_r_vol.rolling(5).corr(ts_r_high); signal = -1 * corr_5.rolling(3).max()"
+  },
+  {
+    "id": "Alpha#27",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; corr_vv = volume.rank(axis=1, pct=True).rolling(6).corr(vwap.rank(axis=1, pct=True)); inner = corr_vv.rolling(2).sum() / 2.0; ranked = inner.rank(axis=1, pct=True); signal = pd.DataFrame(np.where(ranked > 0.5, -1.0, 1.0), index=close.index, columns=close.columns)"
+  },
+  {
+    "id": "Alpha#28",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "adv20 = volume.rolling(20).mean(); corr_al = adv20.rolling(5).corr(low); mid = (high + low) / 2; raw = corr_al + mid - close; scale_sum = raw.abs().sum(axis=1).replace(0, np.nan); signal = raw.div(scale_sum, axis=0)"
+  },
+  {
+    "id": "Alpha#29",
+    "inputs": [
+      "close"
+    ],
+    "code": "returns = close.pct_change(); r1 = (-1 * (close - 1).diff(5)).rank(axis=1, pct=True).rank(axis=1, pct=True); r2 = r1.rolling(2).min(); log_r2 = np.log(r2.replace(0, np.nan).abs()); scale_s = log_r2.abs().sum(axis=1).replace(0, np.nan); scale_log = log_r2.div(scale_s, axis=0); part1 = scale_log.rank(axis=1, pct=True).rank(axis=1, pct=True).rolling(1).min(); ts_r_ret = (-1 * returns.shift(6)).rolling(5).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = part1 + ts_r_ret"
+  },
+  {
+    "id": "Alpha#30",
+    "inputs": [
+      "close",
+      "volume"
+    ],
+    "code": "s1 = np.sign(close.diff(1)); s2 = np.sign(close.shift(1).diff(1)); s3 = np.sign(close.shift(2).diff(1)); vol20 = volume.rolling(20).sum().replace(0, np.nan); signal = (1.0 - (s1 + s2 + s3).rank(axis=1, pct=True)) * volume.rolling(5).sum() / vol20"
+  },
+  {
+    "id": "Alpha#31",
+    "inputs": [
+      "close",
+      "low",
+      "volume"
+    ],
+    "code": "adv20 = volume.rolling(20).mean(); w10 = np.arange(1, 11) / np.arange(1, 11).sum(); decay10 = lambda x: np.dot(x, w10); d10 = (-1 * close.diff(10).rank(axis=1, pct=True)).rank(axis=1, pct=True); dl_d10 = d10.rolling(10).apply(decay10, raw=True).rank(axis=1, pct=True).rank(axis=1, pct=True).rank(axis=1, pct=True); r2 = (-1 * close.diff(3)).rank(axis=1, pct=True); corr_al = adv20.rolling(12).corr(low); scale_s = corr_al.abs().sum(axis=1).replace(0, np.nan); signal = dl_d10 + r2 + np.sign(corr_al.div(scale_s, axis=0))"
+  },
+  {
+    "id": "Alpha#32",
+    "inputs": [
+      "close",
+      "high",
+      "low"
+    ],
+    "code": "vwap = (high + low + close) / 3; sma7 = close.rolling(7).mean(); diff_sma = sma7 - close; s1 = diff_sma.abs().sum(axis=1).replace(0, np.nan); scale1 = diff_sma.div(s1, axis=0); corr_vd = vwap.rolling(230).corr(close.shift(5)); s2 = corr_vd.abs().sum(axis=1).replace(0, np.nan); scale2 = corr_vd.div(s2, axis=0); signal = scale1 + 20 * scale2"
+  },
+  {
+    "id": "Alpha#33",
+    "inputs": [
+      "open",
+      "close"
+    ],
+    "code": "signal = (-1 * (1 - open / close.replace(0, np.nan))).rank(axis=1, pct=True)"
+  },
+  {
+    "id": "Alpha#34",
+    "inputs": [
+      "close"
+    ],
+    "code": "returns = close.pct_change(); std_ratio = returns.rolling(2).std() / returns.rolling(5).std().replace(0, np.nan); part1 = 1 - std_ratio.rank(axis=1, pct=True); part2 = 1 - close.diff(1).rank(axis=1, pct=True); signal = (part1 + part2).rank(axis=1, pct=True)"
+  },
+  {
+    "id": "Alpha#35",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "returns = close.pct_change(); ts_r_vol = volume.rolling(32).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); ts_r_hlc = (close + high - low).rolling(16).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); ts_r_ret = returns.rolling(32).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = ts_r_vol * (1 - ts_r_hlc) * (1 - ts_r_ret)"
+  },
+  {
+    "id": "Alpha#36",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "returns = close.pct_change(); adv20 = volume.rolling(20).mean(); vwap = (high + low + close) / 3; sma200 = close.rolling(200).mean(); r1 = (close - open).rolling(15).corr(volume.shift(1)).rank(axis=1, pct=True); r2 = (open - close).rank(axis=1, pct=True); ts_r_ret = (-1 * returns.shift(6)).rolling(5).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True).rank(axis=1, pct=True); r4 = vwap.rolling(6).corr(adv20).abs().rank(axis=1, pct=True); r5 = ((sma200 - open) * (close - open)).rank(axis=1, pct=True); signal = 2.21 * r1 + 0.7 * r2 + 0.73 * ts_r_ret + r4 + 0.6 * r5"
+  },
+  {
+    "id": "Alpha#37",
+    "inputs": [
+      "open",
+      "close"
+    ],
+    "code": "delayed_diff = (open - close).shift(1); signal = delayed_diff.rolling(200).corr(close).rank(axis=1, pct=True) + (open - close).rank(axis=1, pct=True)"
+  },
+  {
+    "id": "Alpha#38",
+    "inputs": [
+      "open",
+      "close"
+    ],
+    "code": "ts_r_close = close.rolling(10).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True).rank(axis=1, pct=True); signal = (-1 * ts_r_close) * (close / open.replace(0, np.nan)).rank(axis=1, pct=True)"
+  },
+  {
+    "id": "Alpha#39",
+    "inputs": [
+      "close",
+      "volume"
+    ],
+    "code": "returns = close.pct_change(); adv20 = volume.rolling(20).mean(); w9 = np.arange(1, 10) / np.arange(1, 10).sum(); decay9 = lambda x: np.dot(x, w9); vol_ratio = (volume / adv20.replace(0, np.nan)).rolling(9).apply(decay9, raw=True); r1 = (close.diff(7) * (1 - vol_ratio.rank(axis=1, pct=True))).rank(axis=1, pct=True); r2 = 1 + returns.rolling(250).sum().rank(axis=1, pct=True); signal = (-1 * r1) * r2"
+  },
+  {
+    "id": "Alpha#40",
+    "inputs": [
+      "high",
+      "volume"
+    ],
+    "code": "signal = (-1 * high.rolling(10).std().rank(axis=1, pct=True)) * high.rolling(10).corr(volume)"
+  },
+  {
+    "id": "Alpha#41",
+    "inputs": [
+      "close",
+      "high",
+      "low"
+    ],
+    "code": "vwap = (high + low + close) / 3; signal = (high * low) ** 0.5 - vwap"
+  },
+  {
+    "id": "Alpha#42",
+    "inputs": [
+      "close",
+      "high",
+      "low"
+    ],
+    "code": "vwap = (high + low + close) / 3; num = (vwap - close).rank(axis=1, pct=True); denom = (vwap + close).rank(axis=1, pct=True).replace(0, np.nan); signal = num / denom"
+  },
+  {
+    "id": "Alpha#43",
+    "inputs": [
+      "close",
+      "volume"
+    ],
+    "code": "adv20 = volume.rolling(20).mean(); ts_r_vol = (volume / adv20.replace(0, np.nan)).rolling(20).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); ts_r_d7 = (-1 * close.diff(7)).rolling(8).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = ts_r_vol * ts_r_d7"
+  },
+  {
+    "id": "Alpha#44",
+    "inputs": [
+      "high",
+      "volume"
+    ],
+    "code": "signal = -1 * high.rolling(5).corr(volume.rank(axis=1, pct=True))"
+  },
+  {
+    "id": "Alpha#45",
+    "inputs": [
+      "close",
+      "volume"
+    ],
+    "code": "sma_delay = close.shift(5).rolling(20).mean().rank(axis=1, pct=True); corr_cv = close.rolling(2).corr(volume); corr_sums = close.rolling(5).sum().rolling(2).corr(close.rolling(20).sum()).rank(axis=1, pct=True); signal = -1 * sma_delay * corr_cv * corr_sums"
+  },
+  {
+    "id": "Alpha#46",
+    "inputs": [
+      "close"
+    ],
+    "code": "diff1 = (close.shift(10) - close.shift(20)) / 10; diff2 = (close - close.shift(10)) / 10; slope = diff1 - diff2; cond1 = slope > 0.25; cond2 = slope < 0; signal = pd.DataFrame(np.where(cond1, -1.0, np.where(cond2, 1.0, -1 * close.diff(1))), index=close.index, columns=close.columns)"
+  },
+  {
+    "id": "Alpha#47",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "adv20 = volume.rolling(20).mean(); vwap = (high + low + close) / 3; r1 = (1 / close.replace(0, np.nan)).rank(axis=1, pct=True) * volume / adv20.replace(0, np.nan); r2 = high.rank(axis=1, pct=True) * (high - close) / high.rolling(5).mean().replace(0, np.nan); r3 = (vwap - vwap.shift(5)).rank(axis=1, pct=True); signal = r1 * r2 - r3"
+  },
+  {
+    "id": "Alpha#48",
+    "inputs": [
+      "close"
+    ],
+    "code": "d1 = close.diff(1); corr_250 = d1.rolling(250).corr(d1.shift(1)); num = corr_250 * d1 / close.replace(0, np.nan); denom = (d1 / close.shift(1).replace(0, np.nan)) ** 2; denom_sum = denom.rolling(250).sum().replace(0, np.nan); signal = num / denom_sum"
+  },
+  {
+    "id": "Alpha#49",
+    "inputs": [
+      "close"
+    ],
+    "code": "diff1 = (close.shift(10) - close.shift(20)) / 10; diff2 = (close - close.shift(10)) / 10; slope = diff1 - diff2; cond = slope < -0.1; signal = pd.DataFrame(np.where(cond, 1.0, -1 * close.diff(1)), index=close.index, columns=close.columns)"
+  },
+  {
+    "id": "Alpha#50",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; corr_vv = volume.rank(axis=1, pct=True).rolling(5).corr(vwap.rank(axis=1, pct=True)); signal = -1 * corr_vv.rank(axis=1, pct=True).rolling(5).max()"
+  },
+  {
+    "id": "Alpha#51",
+    "inputs": [
+      "close"
+    ],
+    "code": "diff1 = (close.shift(10) - close.shift(20)) / 10; diff2 = (close - close.shift(10)) / 10; slope = diff1 - diff2; cond = slope < -0.05; signal = pd.DataFrame(np.where(cond, 1.0, -1 * close.diff(1)), index=close.index, columns=close.columns)"
+  },
+  {
+    "id": "Alpha#52",
+    "inputs": [
+      "close",
+      "low",
+      "volume"
+    ],
+    "code": "returns = close.pct_change(); ts_min5_low = low.rolling(5).min(); delta_tsmin = ts_min5_low - ts_min5_low.shift(5); ret_ratio = (returns.rolling(240).sum() - returns.rolling(20).sum()) / 220; r1 = ret_ratio.rank(axis=1, pct=True); ts_r_vol = volume.rolling(5).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = ((-1 * delta_tsmin) * r1) * ts_r_vol"
+  },
+  {
+    "id": "Alpha#53",
+    "inputs": [
+      "close",
+      "high",
+      "low"
+    ],
+    "code": "inner = ((close - low) - (high - close)) / (close - low).replace(0, np.nan); signal = -1 * inner.diff(9)"
+  },
+  {
+    "id": "Alpha#54",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low"
+    ],
+    "code": "signal = (-1 * (low - close) * (open ** 5)) / ((low - high).replace(0, np.nan) * (close ** 5).replace(0, np.nan))"
+  },
+  {
+    "id": "Alpha#55",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "ts_min12 = low.rolling(12).min(); ts_max12 = high.rolling(12).max(); norm = (close - ts_min12) / (ts_max12 - ts_min12).replace(0, np.nan); signal = -1 * norm.rank(axis=1, pct=True).rolling(6).corr(volume.rank(axis=1, pct=True))"
+  },
+  {
+    "id": "Alpha#56",
+    "inputs": [
+      "close",
+      "volume"
+    ],
+    "code": "returns = close.pct_change(); ret10 = returns.rolling(10).sum(); ret_denom = returns.rolling(2).sum().rolling(3).sum().replace(0, np.nan); r1 = (ret10 / ret_denom).rank(axis=1, pct=True); r2 = (returns * volume).rank(axis=1, pct=True); signal = 0 - (r1 * r2)"
+  },
+  {
+    "id": "Alpha#57",
+    "inputs": [
+      "close",
+      "high",
+      "low"
+    ],
+    "code": "vwap = (high + low + close) / 3; w2 = np.array([1, 2]) / 3.0; decay2 = lambda x: np.dot(x, w2); ts_argmax30 = close.rolling(30).apply(np.argmax, raw=True); dl2 = ts_argmax30.rank(axis=1, pct=True).rolling(2).apply(decay2, raw=True).replace(0, np.nan); signal = 0 - ((close - vwap) / dl2)"
+  },
+  {
+    "id": "Alpha#58",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; vwap_neu = vwap.sub(vwap.mean(axis=1), axis=0); w8 = np.arange(1, 9) / np.arange(1, 9).sum(); decay8 = lambda x: np.dot(x, w8); corr_3 = vwap_neu.rolling(4).corr(volume); dl7 = corr_3.rolling(8).apply(decay8, raw=True); ts_r = dl7.rolling(6).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = -1 * ts_r"
+  },
+  {
+    "id": "Alpha#59",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; vwap_neu = vwap.sub(vwap.mean(axis=1), axis=0); w16 = np.arange(1, 17) / np.arange(1, 17).sum(); decay16 = lambda x: np.dot(x, w16); corr_4 = vwap_neu.rolling(5).corr(volume); dl16 = corr_4.rolling(16).apply(decay16, raw=True); ts_r = dl16.rolling(8).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = -1 * ts_r"
+  },
+  {
+    "id": "Alpha#60",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "hlv = ((close - low) - (high - close)) / (high - low).replace(0, np.nan) * volume; r_hlv = hlv.rank(axis=1, pct=True); s1 = r_hlv.abs().sum(axis=1).replace(0, np.nan); scale1 = r_hlv.div(s1, axis=0); ts_argmax10 = close.rolling(10).apply(np.argmax, raw=True).rank(axis=1, pct=True); s2 = ts_argmax10.abs().sum(axis=1).replace(0, np.nan); scale2 = ts_argmax10.div(s2, axis=0); signal = 0 - (2 * scale1 - scale2)"
+  },
+  {
+    "id": "Alpha#61",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv180 = volume.rolling(180).mean(); r1 = (vwap - vwap.rolling(16).min()).rank(axis=1, pct=True); r2 = vwap.rolling(18).corr(adv180).rank(axis=1, pct=True); signal = (r1 < r2).astype(float)"
+  },
+  {
+    "id": "Alpha#62",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv20 = volume.rolling(20).mean(); r1 = vwap.rolling(10).corr(adv20.rolling(22).sum()).rank(axis=1, pct=True); lhs_r = r1; rhs_r = ((open.rank(axis=1, pct=True) * 2) < (((high + low) / 2).rank(axis=1, pct=True) + high.rank(axis=1, pct=True))).astype(float).rank(axis=1, pct=True); signal = (lhs_r < rhs_r).astype(float) * -1"
+  },
+  {
+    "id": "Alpha#63",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv180 = volume.rolling(180).mean(); close_neu = close.sub(close.mean(axis=1), axis=0); w8 = np.arange(1, 9) / np.arange(1, 9).sum(); decay8 = lambda x: np.dot(x, w8); w12 = np.arange(1, 13) / np.arange(1, 13).sum(); decay12 = lambda x: np.dot(x, w12); d1 = close_neu.diff(2); dl8 = d1.rolling(8).apply(decay8, raw=True).rank(axis=1, pct=True); mix = vwap * 0.318108 + open * (1 - 0.318108); corr_mix = mix.rolling(14).corr(adv180.rolling(37).sum()); dl12 = corr_mix.rolling(12).apply(decay12, raw=True).rank(axis=1, pct=True); signal = (dl8 - dl12) * -1"
+  },
+  {
+    "id": "Alpha#64",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv120 = volume.rolling(120).mean(); mix1 = open * 0.178404 + low * (1 - 0.178404); r1 = mix1.rolling(13).sum().rolling(17).corr(adv120.rolling(13).sum()).rank(axis=1, pct=True); mix2 = ((high + low) / 2) * 0.178404 + vwap * (1 - 0.178404); r2 = mix2.diff(4).rank(axis=1, pct=True); signal = (r1 < r2).astype(float) * -1"
+  },
+  {
+    "id": "Alpha#65",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv60 = volume.rolling(60).mean(); mix = open * 0.00817205 + vwap * (1 - 0.00817205); r1 = mix.rolling(7).corr(adv60.rolling(9).sum()).rank(axis=1, pct=True); r2 = (open - open.rolling(14).min()).rank(axis=1, pct=True); signal = (r1 < r2).astype(float) * -1"
+  },
+  {
+    "id": "Alpha#66",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low"
+    ],
+    "code": "vwap = (high + low + close) / 3; w7 = np.arange(1, 8) / np.arange(1, 8).sum(); decay7 = lambda x: np.dot(x, w7); w11 = np.arange(1, 12) / np.arange(1, 12).sum(); decay11 = lambda x: np.dot(x, w11); d1 = vwap.diff(4); dl7 = d1.rolling(7).apply(decay7, raw=True).rank(axis=1, pct=True); inner = (low - vwap) / (open - (high + low) / 2).replace(0, np.nan); dl11 = (-1 * inner).rolling(11).apply(decay11, raw=True); ts_r11 = dl11.rolling(7).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = (dl7 + ts_r11) * -1"
+  },
+  {
+    "id": "Alpha#67",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv20 = volume.rolling(20).mean(); vwap_neu = vwap.sub(vwap.mean(axis=1), axis=0); adv20_neu = adv20.sub(adv20.mean(axis=1), axis=0); r1 = (high - high.rolling(2).min()).rank(axis=1, pct=True); r2 = vwap_neu.rolling(6).corr(adv20_neu).rank(axis=1, pct=True); signal = (r1 ** r2) * -1"
+  },
+  {
+    "id": "Alpha#68",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "adv15 = volume.rolling(15).mean(); ts_r = high.rank(axis=1, pct=True).rolling(9).corr(adv15.rank(axis=1, pct=True)).rolling(14).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); mix = close * 0.518371 + low * (1 - 0.518371); r2 = mix.diff(1).rank(axis=1, pct=True); signal = (ts_r < r2).astype(float) * -1"
+  },
+  {
+    "id": "Alpha#69",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv20 = volume.rolling(20).mean(); vwap_neu = vwap.sub(vwap.mean(axis=1), axis=0); r1 = vwap_neu.diff(3).rolling(5).max().rank(axis=1, pct=True); mix = close * 0.490655 + vwap * (1 - 0.490655); ts_r = mix.rolling(5).corr(adv20).rolling(9).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = (r1 ** ts_r) * -1"
+  },
+  {
+    "id": "Alpha#70",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv50 = volume.rolling(50).mean(); close_neu = close.sub(close.mean(axis=1), axis=0); r1 = vwap.diff(1).rank(axis=1, pct=True); ts_r = close_neu.rolling(18).corr(adv50).rolling(18).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = (r1 ** ts_r) * -1"
+  },
+  {
+    "id": "Alpha#71",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv180 = volume.rolling(180).mean(); w4 = np.arange(1, 5) / np.arange(1, 5).sum(); decay4 = lambda x: np.dot(x, w4); w16 = np.arange(1, 17) / np.arange(1, 17).sum(); decay16 = lambda x: np.dot(x, w16); ts_r_close3 = close.rolling(3).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); ts_r_adv = adv180.rolling(12).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); corr_18 = ts_r_close3.rolling(18).corr(ts_r_adv); dl4 = corr_18.rolling(4).apply(decay4, raw=True); ts_r1 = dl4.rolling(16).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); inner2 = (low + open - 2 * vwap).rank(axis=1, pct=True) ** 2; dl16 = inner2.rolling(16).apply(decay16, raw=True); ts_r2 = dl16.rolling(4).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = pd.DataFrame(np.maximum(ts_r1.values, ts_r2.values), index=close.index, columns=close.columns)"
+  },
+  {
+    "id": "Alpha#72",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv40 = volume.rolling(40).mean(); w10 = np.arange(1, 11) / np.arange(1, 11).sum(); decay10 = lambda x: np.dot(x, w10); w3 = np.arange(1, 4) / np.arange(1, 4).sum(); decay3 = lambda x: np.dot(x, w3); mid = (high + low) / 2; corr_mid_adv = mid.rolling(9).corr(adv40); dl10 = corr_mid_adv.rolling(10).apply(decay10, raw=True).rank(axis=1, pct=True); ts_r_vwap = vwap.rolling(4).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); ts_r_vol = volume.rolling(19).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); corr_vv = ts_r_vwap.rolling(7).corr(ts_r_vol); dl3 = corr_vv.rolling(3).apply(decay3, raw=True).rank(axis=1, pct=True).replace(0, np.nan); signal = dl10 / dl3"
+  },
+  {
+    "id": "Alpha#73",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low"
+    ],
+    "code": "vwap = (high + low + close) / 3; w3 = np.arange(1, 4) / np.arange(1, 4).sum(); decay3 = lambda x: np.dot(x, w3); w4 = np.arange(1, 5) / np.arange(1, 5).sum(); decay4 = lambda x: np.dot(x, w4); dl3_vwap = vwap.diff(5).rolling(3).apply(decay3, raw=True).rank(axis=1, pct=True); mix = open * 0.147155 + low * (1 - 0.147155); d_mix = mix.diff(2) / mix.shift(2).replace(0, np.nan); dl4_mix = (-1 * d_mix).rolling(4).apply(decay4, raw=True); ts_r = dl4_mix.rolling(17).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = pd.DataFrame(np.maximum(dl3_vwap.values, ts_r.values), index=close.index, columns=close.columns) * -1"
+  },
+  {
+    "id": "Alpha#74",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv30 = volume.rolling(30).mean(); r1 = close.rolling(15).corr(adv30.rolling(37).sum()).rank(axis=1, pct=True); mix = high * 0.0261661 + vwap * (1 - 0.0261661); r2 = mix.rank(axis=1, pct=True).rolling(11).corr(volume.rank(axis=1, pct=True)).rank(axis=1, pct=True); signal = (r1 < r2).astype(float) * -1"
+  },
+  {
+    "id": "Alpha#75",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv50 = volume.rolling(50).mean(); r1 = vwap.rolling(4).corr(volume).rank(axis=1, pct=True); r2 = low.rank(axis=1, pct=True).rolling(12).corr(adv50.rank(axis=1, pct=True)).rank(axis=1, pct=True); signal = (r1 < r2).astype(float)"
+  },
+  {
+    "id": "Alpha#76",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv81 = volume.rolling(81).mean(); low_neu = low.sub(low.mean(axis=1), axis=0); w12 = np.arange(1, 13) / np.arange(1, 13).sum(); decay12 = lambda x: np.dot(x, w12); w17 = np.arange(1, 18) / np.arange(1, 18).sum(); decay17 = lambda x: np.dot(x, w17); dl12_vwap = vwap.diff(1).rolling(12).apply(decay12, raw=True).rank(axis=1, pct=True); ts_r_corr = low_neu.rolling(8).corr(adv81).rolling(20).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); dl17 = ts_r_corr.rolling(17).apply(decay17, raw=True); ts_r2 = dl17.rolling(19).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = pd.DataFrame(np.maximum(dl12_vwap.values, ts_r2.values), index=close.index, columns=close.columns) * -1"
+  },
+  {
+    "id": "Alpha#77",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv40 = volume.rolling(40).mean(); w20 = np.arange(1, 21) / np.arange(1, 21).sum(); decay20 = lambda x: np.dot(x, w20); w5 = np.arange(1, 6) / np.arange(1, 6).sum(); decay5 = lambda x: np.dot(x, w5); mid = (high + low) / 2; inner = mid + high - vwap - high; dl20 = inner.rolling(20).apply(decay20, raw=True).rank(axis=1, pct=True); corr_mid_adv = mid.rolling(3).corr(adv40); dl5 = corr_mid_adv.rolling(6).apply(decay5, raw=True).rank(axis=1, pct=True); signal = pd.DataFrame(np.minimum(dl20.values, dl5.values), index=close.index, columns=close.columns)"
+  },
+  {
+    "id": "Alpha#78",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv40 = volume.rolling(40).mean(); mix = low * 0.352233 + vwap * (1 - 0.352233); r1 = mix.rolling(20).sum().rolling(7).corr(adv40.rolling(20).sum()).rank(axis=1, pct=True); r2 = vwap.rank(axis=1, pct=True).rolling(6).corr(volume.rank(axis=1, pct=True)).rank(axis=1, pct=True); signal = r1 ** r2"
+  },
+  {
+    "id": "Alpha#79",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv150 = volume.rolling(150).mean(); mix = close * 0.60733 + open * (1 - 0.60733); mix_neu = mix.sub(mix.mean(axis=1), axis=0); r1 = mix_neu.diff(1).rank(axis=1, pct=True); ts_r_vwap = vwap.rolling(4).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); ts_r_adv = adv150.rolling(9).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); r2 = ts_r_vwap.rolling(15).corr(ts_r_adv).rank(axis=1, pct=True); signal = (r1 < r2).astype(float)"
+  },
+  {
+    "id": "Alpha#80",
+    "inputs": [
+      "open",
+      "high",
+      "close",
+      "low",
+      "volume"
+    ],
+    "code": "adv10 = volume.rolling(10).mean(); mix = open * 0.868128 + high * (1 - 0.868128); mix_neu = mix.sub(mix.mean(axis=1), axis=0); r1 = np.sign(mix_neu.diff(4)).rank(axis=1, pct=True); ts_r = high.rolling(5).corr(adv10).rolling(6).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = (r1 ** ts_r) * -1"
+  },
+  {
+    "id": "Alpha#81",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv10 = volume.rolling(10).mean(); r1 = vwap.rolling(8).corr(adv10.rolling(50).sum()).rank(axis=1, pct=True) ** 4; prod14 = r1.rolling(15).apply(lambda x: x.prod(), raw=True).rank(axis=1, pct=True); log_prod = np.log(prod14.replace(0, np.nan).abs()); r_log = log_prod.rank(axis=1, pct=True); r2 = vwap.rank(axis=1, pct=True).rolling(5).corr(volume.rank(axis=1, pct=True)).rank(axis=1, pct=True); signal = (r_log < r2).astype(float) * -1"
+  },
+  {
+    "id": "Alpha#82",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vol_neu = volume.sub(volume.mean(axis=1), axis=0); w15 = np.arange(1, 16) / np.arange(1, 16).sum(); decay15 = lambda x: np.dot(x, w15); w7 = np.arange(1, 8) / np.arange(1, 8).sum(); decay7 = lambda x: np.dot(x, w7); dl15 = open.diff(1).rolling(15).apply(decay15, raw=True).rank(axis=1, pct=True); corr_v_open = vol_neu.rolling(17).corr(open); dl7 = corr_v_open.rolling(7).apply(decay7, raw=True); ts_r = dl7.rolling(13).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = pd.DataFrame(np.minimum(dl15.values, ts_r.values), index=close.index, columns=close.columns) * -1"
+  },
+  {
+    "id": "Alpha#83",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; hl_ratio = (high - low) / close.rolling(5).mean().replace(0, np.nan); r1 = hl_ratio.shift(2).rank(axis=1, pct=True); r2 = volume.rank(axis=1, pct=True).rank(axis=1, pct=True); denom = hl_ratio / (vwap - close).replace(0, np.nan); signal = (r1 * r2) / denom.replace(0, np.nan)"
+  },
+  {
+    "id": "Alpha#84",
+    "inputs": [
+      "close",
+      "high",
+      "low"
+    ],
+    "code": "vwap = (high + low + close) / 3; ts_max15 = vwap.rolling(15).max(); diff = vwap - ts_max15; ts_r = diff.rolling(21).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); exp = close.diff(5); signal = np.sign(exp) * (ts_r.abs() ** exp.abs())"
+  },
+  {
+    "id": "Alpha#85",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "adv30 = volume.rolling(30).mean(); mix1 = high * 0.876703 + close * (1 - 0.876703); r1 = mix1.rolling(10).corr(adv30).rank(axis=1, pct=True); ts_r_mid = ((high + low) / 2).rolling(4).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); ts_r_vol = volume.rolling(10).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); r2 = ts_r_mid.rolling(7).corr(ts_r_vol).rank(axis=1, pct=True); signal = r1 ** r2"
+  },
+  {
+    "id": "Alpha#86",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv20 = volume.rolling(20).mean(); ts_r = close.rolling(6).corr(adv20.rolling(15).sum()).rolling(20).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); r2 = (close - vwap).rank(axis=1, pct=True); signal = (ts_r < r2).astype(float) * -1"
+  },
+  {
+    "id": "Alpha#87",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv81 = volume.rolling(81).mean(); adv81_neu = adv81.sub(adv81.mean(axis=1), axis=0); w3 = np.arange(1, 4) / np.arange(1, 4).sum(); decay3 = lambda x: np.dot(x, w3); w5 = np.arange(1, 6) / np.arange(1, 6).sum(); decay5 = lambda x: np.dot(x, w5); mix = close * 0.369701 + vwap * (1 - 0.369701); dl3 = mix.diff(2).rolling(3).apply(decay3, raw=True).rank(axis=1, pct=True); corr_abs = adv81_neu.rolling(13).corr(close).abs(); dl5 = corr_abs.rolling(5).apply(decay5, raw=True); ts_r = dl5.rolling(14).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = pd.DataFrame(np.maximum(dl3.values, ts_r.values), index=close.index, columns=close.columns) * -1"
+  },
+  {
+    "id": "Alpha#88",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "adv60 = volume.rolling(60).mean(); w8 = np.arange(1, 9) / np.arange(1, 9).sum(); decay8 = lambda x: np.dot(x, w8); w7 = np.arange(1, 8) / np.arange(1, 8).sum(); decay7 = lambda x: np.dot(x, w7); inner = (open.rank(axis=1, pct=True) + low.rank(axis=1, pct=True)) - (high.rank(axis=1, pct=True) + close.rank(axis=1, pct=True)); dl8 = inner.rolling(8).apply(decay8, raw=True).rank(axis=1, pct=True); ts_r_close = close.rolling(8).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); ts_r_adv60 = adv60.rolling(21).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); corr_8 = ts_r_close.rolling(8).corr(ts_r_adv60); dl7 = corr_8.rolling(7).apply(decay7, raw=True); ts_r2 = dl7.rolling(3).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = pd.DataFrame(np.minimum(dl8.values, ts_r2.values), index=close.index, columns=close.columns)"
+  },
+  {
+    "id": "Alpha#89",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv10 = volume.rolling(10).mean(); vwap_neu = vwap.sub(vwap.mean(axis=1), axis=0); w6 = np.arange(1, 7) / np.arange(1, 7).sum(); decay6 = lambda x: np.dot(x, w6); w10 = np.arange(1, 11) / np.arange(1, 11).sum(); decay10 = lambda x: np.dot(x, w10); corr_low_adv = low.rolling(7).corr(adv10); dl6 = corr_low_adv.rolling(6).apply(decay6, raw=True); ts_r1 = dl6.rolling(4).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); dl10 = vwap_neu.diff(3).rolling(10).apply(decay10, raw=True); ts_r2 = dl10.rolling(15).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = ts_r1 - ts_r2"
+  },
+  {
+    "id": "Alpha#90",
+    "inputs": [
+      "close",
+      "low",
+      "volume"
+    ],
+    "code": "adv40 = volume.rolling(40).mean(); adv40_neu = adv40.sub(adv40.mean(axis=1), axis=0); r1 = (close - close.rolling(5).max()).rank(axis=1, pct=True); ts_r = adv40_neu.rolling(5).corr(low).rolling(3).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = (r1 ** ts_r) * -1"
+  },
+  {
+    "id": "Alpha#91",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv30 = volume.rolling(30).mean(); close_neu = close.sub(close.mean(axis=1), axis=0); w16 = np.arange(1, 17) / np.arange(1, 17).sum(); decay16 = lambda x: np.dot(x, w16); w4 = np.arange(1, 5) / np.arange(1, 5).sum(); decay4 = lambda x: np.dot(x, w4); w3 = np.arange(1, 4) / np.arange(1, 4).sum(); decay3 = lambda x: np.dot(x, w3); corr_cv = close_neu.rolling(10).corr(volume); dl16 = corr_cv.rolling(16).apply(decay16, raw=True); dl4_dl16 = dl16.rolling(4).apply(decay4, raw=True); ts_r1 = dl4_dl16.rolling(5).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); corr_vwap_adv = vwap.rolling(4).corr(adv30); dl3_vwap = corr_vwap_adv.rolling(3).apply(decay3, raw=True).rank(axis=1, pct=True); signal = (ts_r1 - dl3_vwap) * -1"
+  },
+  {
+    "id": "Alpha#92",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "adv30 = volume.rolling(30).mean(); w15 = np.arange(1, 16) / np.arange(1, 16).sum(); decay15 = lambda x: np.dot(x, w15); w7 = np.arange(1, 8) / np.arange(1, 8).sum(); decay7 = lambda x: np.dot(x, w7); mid = (high + low) / 2; inner = ((mid + close) < (low + open)).astype(float); dl15 = inner.rolling(15).apply(decay15, raw=True); ts_r1 = dl15.rolling(19).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); corr_low_adv = low.rank(axis=1, pct=True).rolling(8).corr(adv30.rank(axis=1, pct=True)); dl7 = corr_low_adv.rolling(7).apply(decay7, raw=True); ts_r2 = dl7.rolling(7).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = pd.DataFrame(np.minimum(ts_r1.values, ts_r2.values), index=close.index, columns=close.columns)"
+  },
+  {
+    "id": "Alpha#93",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv81 = volume.rolling(81).mean(); vwap_neu = vwap.sub(vwap.mean(axis=1), axis=0); w20 = np.arange(1, 21) / np.arange(1, 21).sum(); decay20 = lambda x: np.dot(x, w20); w16 = np.arange(1, 17) / np.arange(1, 17).sum(); decay16 = lambda x: np.dot(x, w16); corr_vn_adv = vwap_neu.rolling(17).corr(adv81); dl20 = corr_vn_adv.rolling(20).apply(decay20, raw=True); ts_r = dl20.rolling(8).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); mix = close * 0.524434 + vwap * (1 - 0.524434); dl16 = mix.diff(3).rolling(16).apply(decay16, raw=True).rank(axis=1, pct=True).replace(0, np.nan); signal = ts_r / dl16"
+  },
+  {
+    "id": "Alpha#94",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv60 = volume.rolling(60).mean(); r1 = (vwap - vwap.rolling(12).min()).rank(axis=1, pct=True); ts_r_vwap = vwap.rolling(20).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); ts_r_adv60 = adv60.rolling(4).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); ts_r = ts_r_vwap.rolling(18).corr(ts_r_adv60).rolling(3).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = (r1 ** ts_r) * -1"
+  },
+  {
+    "id": "Alpha#95",
+    "inputs": [
+      "open",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "adv40 = volume.rolling(40).mean(); r1 = (open - open.rolling(12).min()).rank(axis=1, pct=True); mid = (high + low) / 2; corr_mid_adv = mid.rolling(19).sum().rolling(13).corr(adv40.rolling(19).sum()).rank(axis=1, pct=True); ts_r = (corr_mid_adv ** 5).rolling(12).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = (r1 < ts_r).astype(float)"
+  },
+  {
+    "id": "Alpha#96",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv60 = volume.rolling(60).mean(); w4 = np.arange(1, 5) / np.arange(1, 5).sum(); decay4 = lambda x: np.dot(x, w4); w14 = np.arange(1, 15) / np.arange(1, 15).sum(); decay14 = lambda x: np.dot(x, w14); ts_r_vwap = vwap.rank(axis=1, pct=True).rolling(4).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); ts_r_vol = volume.rank(axis=1, pct=True).rolling(4).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); corr_4 = ts_r_vwap.rolling(4).corr(ts_r_vol); dl4 = corr_4.rolling(4).apply(decay4, raw=True); ts_r1 = dl4.rolling(8).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); ts_r_close7 = close.rolling(7).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); ts_r_adv60 = adv60.rolling(4).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); argmax_corr = ts_r_close7.rolling(4).corr(ts_r_adv60).rolling(13).apply(np.argmax, raw=True); dl14 = argmax_corr.rolling(14).apply(decay14, raw=True); ts_r2 = dl14.rolling(13).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = pd.DataFrame(np.maximum(ts_r1.values, ts_r2.values), index=close.index, columns=close.columns) * -1"
+  },
+  {
+    "id": "Alpha#97",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv60 = volume.rolling(60).mean(); mix = low * 0.721001 + vwap * (1 - 0.721001); mix_neu = mix.sub(mix.mean(axis=1), axis=0); w20 = np.arange(1, 21) / np.arange(1, 21).sum(); decay20 = lambda x: np.dot(x, w20); w16 = np.arange(1, 17) / np.arange(1, 17).sum(); decay16 = lambda x: np.dot(x, w16); dl20 = mix_neu.diff(3).rolling(20).apply(decay20, raw=True).rank(axis=1, pct=True); ts_r_low = low.rolling(8).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); ts_r_adv60 = adv60.rolling(17).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); corr_5 = ts_r_low.rolling(5).corr(ts_r_adv60); ts_r_corr = corr_5.rolling(19).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); dl16 = ts_r_corr.rolling(16).apply(decay16, raw=True); ts_r2 = dl16.rolling(16).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); signal = (dl20 - ts_r2) * -1"
+  },
+  {
+    "id": "Alpha#98",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "vwap = (high + low + close) / 3; adv5 = volume.rolling(5).mean(); adv15 = volume.rolling(15).mean(); w7 = np.arange(1, 8) / np.arange(1, 8).sum(); decay7 = lambda x: np.dot(x, w7); w8 = np.arange(1, 9) / np.arange(1, 9).sum(); decay8 = lambda x: np.dot(x, w8); corr_vwap_adv5 = vwap.rolling(5).corr(adv5.rolling(26).sum()); dl7 = corr_vwap_adv5.rolling(7).apply(decay7, raw=True).rank(axis=1, pct=True); argmin_corr = open.rank(axis=1, pct=True).rolling(21).corr(adv15.rank(axis=1, pct=True)).rolling(9).apply(np.argmin, raw=True); ts_r_argmin = argmin_corr.rolling(7).apply(lambda x: pd.Series(x).rank(pct=True).iloc[-1], raw=True); dl8 = ts_r_argmin.rolling(8).apply(decay8, raw=True).rank(axis=1, pct=True); signal = dl7 - dl8"
+  },
+  {
+    "id": "Alpha#99",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "adv60 = volume.rolling(60).mean(); mid = (high + low) / 2; r1 = mid.rolling(20).sum().rolling(9).corr(adv60.rolling(20).sum()).rank(axis=1, pct=True); r2 = low.rolling(6).corr(volume).rank(axis=1, pct=True); signal = (r1 < r2).astype(float) * -1"
+  },
+  {
+    "id": "Alpha#100",
+    "inputs": [
+      "close",
+      "high",
+      "low",
+      "volume"
+    ],
+    "code": "adv20 = volume.rolling(20).mean(); hlv = ((close - low) - (high - close)) / (high - low).replace(0, np.nan) * volume; r_hlv = hlv.rank(axis=1, pct=True); neu1 = r_hlv.sub(r_hlv.mean(axis=1), axis=0); neu2 = neu1.sub(neu1.mean(axis=1), axis=0); s_neu = neu2.abs().sum(axis=1).replace(0, np.nan); scale_neu = neu2.div(s_neu, axis=0); corr_term = close.rolling(5).corr(adv20.rank(axis=1, pct=True)) - close.rolling(30).apply(np.argmin, raw=True); neu_corr = corr_term.sub(corr_term.mean(axis=1), axis=0); s_corr = neu_corr.abs().sum(axis=1).replace(0, np.nan); scale_corr = neu_corr.div(s_corr, axis=0); signal = 0 - (1 * ((1.5 * scale_neu - scale_corr) * (volume / adv20.replace(0, np.nan))))"
+  },
+  {
+    "id": "Alpha#101",
+    "inputs": [
+      "open",
+      "close",
+      "high",
+      "low"
+    ],
+    "code": "signal = (close - open) / ((high - low) + 0.001)"
+  }
+]
