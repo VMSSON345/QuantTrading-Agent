@@ -7,7 +7,7 @@ An automated system that uses Large Language Models (LLMs) to discover, evaluate
 
 ## System Architecture
 
-![Alpha Mining Architecture](D:\Python\QuantTrading-Agent\templates\assets\icons\image.pngD:\Python\QuantTrading-Agent\templates\assets\icons\image.png)
+![Alpha Mining Architecture](templates/assets/icons/image.png)
 
 | Component | Role |
 |---|---|
@@ -31,7 +31,7 @@ Both knowledge bases are queried at each inner loop step using cosine similarity
 
 ## Web Interface
 
-![Web Interface](D:\Python\QuantTrading-Agent\templates\assets\icons\app.png)
+![Web Interface](templates/assets/icons/app.png)
 
 The dashboard allows users to:
 - Enter a trading idea in natural language
@@ -48,7 +48,7 @@ The dashboard allows users to:
 
 ---
 
-## Models Used
+## Models 
 
 | Component | Model |
 |---|---|
