@@ -156,6 +156,24 @@ class Alpha101KB:
         self._build_index()
 
     # ── I/O ───────────────────────────────────────────────────────────────────
+    def extract_metadata(self, code: str) -> dict:
+        # Extract window numbers từ rolling/diff/shift
+        windows = []
+        windows += [int(x) for x in re.findall(r'\.rolling\((\d+)\)', code)]
+        windows += [int(x) for x in re.findall(r'\.diff\((\d+)\)',    code)]
+        windows += [int(x) for x in re.findall(r'\.shift\((\d+)\)',   code)]
+
+        # Extract operators
+        ops = re.findall(
+            r'\.(pct_change|rolling|rank|corr|diff|shift|mean|std|'
+            r'apply|log|abs|sign|clip|cumsum|argmax|argmin|where)\b',
+            code
+        )
+
+        return {
+            "operators": list(dict.fromkeys(ops)),   # dedup, giữ thứ tự
+            "windows":   sorted(set(windows)),
+        }
 
     def _load(self, auto_describe: bool):
         if not self.path.exists():
@@ -167,6 +185,13 @@ class Alpha101KB:
             rec = Alpha101Record.from_dict(item, index=i)
             if auto_describe and not rec.description:
                 rec.description = _auto_describe(rec)
+            # ── THÊM: extract metadata ──────────────────
+            meta = self.extract_metadata(rec.code)
+            rec.tags = meta["operators"]
+            # lưu windows vào description để embed được
+            if meta["windows"]:
+                rec.description += f" Windows: {meta['windows']}."
+
             self._records.append(rec)
 
         logger.info(f"✓ Alpha101KB loaded {len(self._records)} alphas from {self.path}")

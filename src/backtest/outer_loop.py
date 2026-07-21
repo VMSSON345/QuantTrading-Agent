@@ -19,7 +19,7 @@ class OuterResult:
 
 
 class OuterLoop:
-    def __init__(self, inner, reviewer, engine, kb, runner, max_iter=5, min_ic_to_save=0.01):
+    def __init__(self, inner, reviewer, engine, kb, runner, max_iter=5, min_ic_to_save=0.01, allow_write=True):
         self.inner        = inner
         self.reviewer     = reviewer
         self.engine       = engine
@@ -27,6 +27,7 @@ class OuterLoop:
         self.runner       = runner
         self.max_iter     = max_iter
         self.min_ic_save  = min_ic_to_save
+        self.allow_write   = allow_write
 
     def run(self, idea: str) -> OuterResult:
         result   = OuterResult()
@@ -59,10 +60,12 @@ class OuterLoop:
 
             feedback = self.reviewer.review(code, metrics)
             result.history.append({
-                "k":      i + 1,               # FIX: đổi "iter" → "k" cho UI
-                "ic":     metrics.get("ic", 0),
-                "sharpe": metrics.get("sharpe", 0),
-                "review": feedback[:120],
+                "k":            i + 1,
+                "judge_score":  inner_out.final_score,   # MỚI — điểm Judge (0-1) của code sinh ra ở vòng này
+                "ic":           metrics.get("ic", 0),
+                "sharpe":       metrics.get("sharpe", 0),
+                "icir":         metrics.get("icir", 0),   # MỚI — tiện cho phân tích sâu hơn sau này
+                "review":       feedback[:120],
             })
 
             if metrics.get("ic", 0) > best_ic:
@@ -76,6 +79,9 @@ class OuterLoop:
 
         if result.best_code and best_ic >= self.min_ic_save:
             m = result.best_metrics
+            print(m.get("icir", 0))
+            print(m.get("tic", 0))
+            print(m.get("ic_year", 0))
             rec = AlphaRecord(
                 alpha_id=str(uuid.uuid4())[:8],
                 # FIX: tên hiển thị 40 ký tự, idea lưu đầy đủ
@@ -90,16 +96,21 @@ class OuterLoop:
                     win_rate=m.get("win_rate", 0),
                     valid_ratio=m.get("valid_ratio", 0),
                     n_days=m.get("n_days", 0),
-                    #top_bucket_return=m.get("top_bucket_return", 0),
-                    #bottom_bucket_return=m.get("bottom_bucket_return", 0),
-                    #long_short_spread=m.get("long_short_spread", 0),
+                    icir=m.get("icir", 0),
+                    tic=m.get("tic", 0),
+                    ci_lower=m.get("ci_lower", 0),
+                    ci_upper=m.get("ci_upper", 0),
+                    ic_ts=m.get("ic_year", 0),
                 ),
                 judge_score=round(best_judge_score * 10, 2),   # FIX: 0.7 → 7.0/10
                 review_comment=best_review_comment[:300],
             )
-            self.kb.add(rec)
-            result.added_to_kb = True
-            logger.success(f"Luu KB: IC={best_ic:.4f}")
+            if self.allow_write:                                       # MỚI — bọc lại
+                self.kb.add(rec)
+                result.added_to_kb = True
+                logger.success(f"Luu KB: IC={best_ic:.4f}")
+            else:
+                logger.info(f"[EVAL MODE] Khong ghi KB (IC={best_ic:.4f} du nguong)")
         else:
             logger.warning(f"IC={best_ic:.4f} < nguong, khong luu")
 

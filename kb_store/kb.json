@@ -13,7 +13,12 @@
       "n_days": 0,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "",
     "judge_score": 0.0,
@@ -34,7 +39,12 @@
       "n_days": 0,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = \\frac{V_t - V_{20}}{V_{20}} \\times (P_{t-1} - P_t)",
     "judge_score": 6.0,
@@ -55,7 +65,12 @@
       "n_days": 0,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = -\\frac{P_t - P_{t-3}}{P_{t-3}} \\cdot \\frac{V_t - V_{t-3}}{V_{t-3}} \\cdot \\mathbb{I}(V_t > V_{t-3})\n% Trong đó:\n% P_t = giá đóng cửa ngày t\n% V_t = khối lượng ngày t\n% P_{t-3} = giá đóng cửa 3 ngày trước\n% V_{t-3} = khối lượng 3 ngày trước\n% \\mathbb{I}(V_t > V_{t-3}) = hàm chỉ số, bằng 1 nếu V_t > V_{t-3} và bằng 0 nếu không",
     "judge_score": 6.0,
@@ -76,7 +91,12 @@
       "n_days": 0,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = -\\frac{P_t - \\mu_{20}}{\\sigma_{20}}\n% Trong đó:\n% \\alpha_t = hệ số alpha tại thời điểm t\n% P_t = giá đóng cửa ngày t\n% \\mu_{20} = trung bình động 20 ngày của giá\n% \\sigma_{20} = độ lệch chuẩn 20 ngày của giá\n% Công thức trên tính toán hệ số alpha dựa trên sự chênh lệch giữa giá đóng cửa hiện tại\n% và trung bình động 20 ngày, sau đó chia cho độ lệch chuẩn 20 ngày.",
     "judge_score": 8.0,
@@ -97,7 +117,12 @@
       "n_days": 0,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\text{Signal} = \\frac{\\text{Volume}_t}{\\text{Volume}_{t-20}} \\times \\left(1 - \\frac{\\text{Close}_t}{\\text{Close}_{t-1}}\\right)",
     "judge_score": 7.5,
@@ -118,7 +143,12 @@
       "n_days": 0,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\text{AlphaFactor} = \\frac{\\text{Rank}(\\text{Momentum giảm mạnh trong 5 ngày qua} \\times \\text{Volume tăng cao hơn trung bình})}{\\text{Rank}(\\text{Volume tăng đột biến})} \\\\\n\\text{Momentum giảm mạnh trong 5 ngày qua} = -\\frac{\\text{Close}_{t} - \\text{Close}_{t-5}}{\\text{Close}_{t-5}} \\\\\n\\text{Volume tăng cao hơn trung bình} = \\frac{\\text{Volume}_{t}}{\\text{Volume}_{t-20:t-1}\\text{.mean}()} \\\\\n\\text{Volume tăng đột biến} = \\frac{\\text{Volume}_{t}}{\\text{Volume}_{t-20:t-1}\\text{.mean}()} > 2",
     "judge_score": 8.0,
@@ -139,7 +169,12 @@
       "n_days": 0,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\text{AlphaFactor} = \\frac{\\text{Volume}}{\\text{Volume}_{20}} \\times \\left( \\frac{\\text{Close}_{-1} - \\text{Close}}{\\text{Close}_{-1}} \\right)",
     "judge_score": 7.0,
@@ -160,7 +195,12 @@
       "n_days": 0,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\text{Alpha Factor: } \\alpha = \\frac{\\text{rank}(\\text{momentum giảm mạnh trong 4 ngày qua} \\times \\text{volume tăng cao hơn trung bình})}{\\text{rank}(\\text{tất cả các cổ phiếu})} - 0.5",
     "judge_score": 7.5,
@@ -181,7 +221,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\text{Giả sử } P_t \\text{ là giá cổ phiếu tại thời điểm } t, \\\\\n\\text{MA là giá trị trung bình của } P_t \\text{ trong khoảng thời gian } n, \\\\\n\\text{và } \\sigma \\text{ là độ lệch chuẩn của } P_t \\text{ trong khoảng thời gian } n. \\\\\n\\text{Dải trên của Bollinger Band được tính theo công thức:} \\\\\n\\text{Upper} = MA + k \\cdot \\sigma \\\\\n\\text{Tín hiệu giao dịch được tính theo công thức:} \\\\\n\\text{Signal} = -(P_t - \\text{Upper}) \\cdot \\mathbb{1}_{P_t > \\text{Upper}} \\\\\n\\text{Signal được chuẩn hóa theo rank:} \\\\\n\\text{Signal}_{\\text{norm}} = \\text{rank}(\\text{Signal}) - 0.5",
     "judge_score": 7.5,
@@ -202,7 +247,12 @@
       "n_days": 223,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\section{Alpha Factor: Panic Selling}\n\n\\subsection{Ý tưởng giao dịch}\nTôi quan sát thấy giá giảm mạnh bất thường trong 1 phiên, có thể là panic selling. Hãy triển khai một tín hiệu giao dịch dựa trên quan sát này.\n\n\\subsection{Công thức}\nGiả sử giá đóng cửa tại thời điểm $t$ là $close_t$, ta tính toán lợi nhuận hàng ngày:\n\n\\[\nr_t = \\frac{close_t - close_{t-1}}{close_{t-1}}\n\\]\n\nTính độ lệch chuẩn của lợi nhuận trong khoảng thời gian $20$ ngày:\n\n\\[\n\\sigma_t = \\sqrt{\\frac{1}{20} \\sum_{i=1}^{20} (r_{t-i} - \\bar{r})^2}\n\\]\n\nvới $\\bar{r}$ là trung bình lợi nhuận trong khoảng thời gian $20$ ngày.\n\nTín hiệu giao dịch được tính toán dựa trên số lần độ lệch chuẩn:\n\n\\[\nsignal_t = -\\frac{r_t}{\\sigma_t} \\quad \\text{nếu} \\quad r_t < -2\\sigma_t\n\\]\n\n\\subsection{Chuẩn hóa tín hiệu}\nTín hiệu giao dịch được chuẩn hóa theo phương pháp xếp hạng:\n\n\\[\nsignal_t = rank(signal_t) - 0.5\n\\]\n\n\\subsection{Cải thiện}\nĐể cải thiện tín hiệu giao dịch, ta thêm yếu tố khối lượng giao dịch và lọc dữ liệu:\n\n\\[\nsignal_t = -\\frac{r_t}{\\sigma_t} \\cdot \\frac{volume_t}{volume_{t-1}} \\quad \\text{nếu} \\quad r_t < -2\\sigma_t \\quad \\text{và} \\quad volume_t > 0\n\\]\n\n\\end{document}",
     "judge_score": 7.5,
@@ -223,7 +273,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = \\frac{close_{t-1} - close_t}{\\sigma_{close,t-1}} \\cdot \\mathbb{1}(close_t < close_{t-1}) \\cdot \\mathbb{1}(volume_t > 0) \\cdot \\mathbb{1}(\\frac{volume_t}{volume_{t-10}} > 1)",
     "judge_score": 7.5,
@@ -244,7 +299,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = \\frac{close_t - close_{t-1}}{close_{t-1}} \\cdot \\frac{volume_t}{volume_{t-10}}",
     "judge_score": 7.5,
@@ -265,7 +325,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha = \\text{rank} \\left( \\frac{\\Delta \\text{close}}{\\text{close}} \\right) \\times \\text{rank} \\left( \\frac{\\text{volume}}{\\text{volume}_{\\text{10-day average}}} \\right) \\times -1",
     "judge_score": 7.5,
@@ -286,7 +351,12 @@
       "n_days": 218,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\section{Alpha Factor}\n\\subsection{Ý tưởng giao dịch}\nCổ phiếu nào giảm liên tiếp 3 ngày nhưng volume tăng thường phục hồi.\n\n\\subsection{Công thức}\nGiả sử $C_t$ là giá đóng cửa của cổ phiếu tại thời điểm $t$, \n$v_t$ là khối lượng giao dịch tại thời điểm $t$.\nTa có thể tính toán các chỉ số như sau:\n\n- Xác định cổ phiếu giảm liên tiếp 3 ngày: \n\\[\nS_t = \\begin{cases} \n1 & \\text{nếu } C_t < C_{t-1} \\text{ và } C_{t-1} < C_{t-2} \\text{ và } C_{t-2} < C_{t-3} \\\\\n0 & \\text{trường hợp khác}\n\\end{cases}\n\\]\n\n- Xác định volume tăng trung bình:\n\\[\nV_t = \\frac{v_t}{v_t + v_{t-1} + v_{t-2} + v_{t-3}} \n\\]\n\n- Chỉ số phục hồi:\n\\[\n\\alpha_t = S_t \\cdot V_t\n\\]\n\nTuy nhiên, để cải thiện và làm cho chỉ số này liên tục, \nta sẽ thực hiện việc chuẩn hóa rank.\n\n\\subsection{Chuẩn hóa rank}\n\\[\n\\alpha_t = \\frac{rank(\\alpha_t) - 0.5}{1}\n\\]\nvới $rank(\\alpha_t)$ là thứ hạng của $\\alpha_t$ trên trục 1 (các cổ phiếu) \ntheo dạng phần trăm.\n\n\\endsubsection{Code}",
     "judge_score": 7.5,
@@ -307,7 +377,12 @@
       "n_days": 218,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha = \\text{rank} \\left( \\frac{\\Delta \\text{Volume}}{\\Delta \\text{Volume}_\\text{mean}} \\cdot \\mathbb{1}(\\text{Close} < \\text{Close}_\\text{lag} \\cap \\text{Close}_\\text{lag} < \\text{Close}_\\text{lag2} \\cap \\text{Close}_\\text{lag2} < \\text{Close}_\\text{lag3}) \\right)",
     "judge_score": 7.5,
@@ -328,7 +403,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = -\\frac{P_t - \\text{MA}_{20}(P_t)}{\\text{STD}_{20}(P_t)} \\times \\left(\\frac{V_t}{V_t^{10\\text{MA}}}\\right)^{\\text{clip}(0,2)}",
     "judge_score": 7.5,
@@ -349,7 +429,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha = \\text{rank}\\left(\\frac{\\text{volume}}{\\text{avg\\_volume\\_10d}} \\cdot \\left(1 - \\frac{\\text{high} - \\text{low}}{\\text{close}}\\right)\\right) - 0.5",
     "judge_score": 7.5,
@@ -370,7 +455,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = \\sum_{i=1}^{5} \\max(0, \\frac{close_{t-i+1} - close_{t-i}}{close_{t-i}})",
     "judge_score": 8.0,
@@ -391,7 +481,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha = \\frac{(\\text{Volume} - \\text{Volume}_{\\text{MA}})}{\\text{Volume}_{\\text{MA}}} \\cdot \\frac{1}{(\\text{High} - \\text{Low}) + \\epsilon}",
     "judge_score": 7.5,
@@ -412,7 +507,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = -\\text{rank}\\left(\\sum_{i=1}^{n} \\left(\\frac{\\Delta \\text{close}_i}{\\Delta \\text{close}_{i-1}} - 1\\right) \\cdot \\mathbb{1}_{\\{\\Delta \\text{close}_i < \\Delta \\text{close}_{i-1}\\}} \\cdot \\mathbb{1}_{\\{\\Delta \\text{close}_{i-1} > 0\\}}\\right)",
     "judge_score": 7.5,
@@ -433,7 +533,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\text{Signal} = -\\left(\\frac{\\text{Close} - (\\text{MA}_{20} + 2\\sigma_{20})}{\\sigma_{20}}\\right) \\cdot \\mathbb{1}_{\\text{Close} > \\text{MA}_{20} + 2\\sigma_{20}}}",
     "judge_score": 8.5,
@@ -454,7 +559,12 @@
       "n_days": 223,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = \\frac{-\\Delta P_t}{\\sigma_t} \\cdot \\mathbb{1}_{\\{\\Delta P_t < -2\\sigma_t\\}}",
     "judge_score": 6.5,
@@ -475,7 +585,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = -\\left( \\frac{Close_t - MA_{20} }{2 \\sigma_{20}} \\right) \\times \\left( \\frac{Volume_t}{Volume_{10\\_mean}} \\right)_{clip(0,2)}",
     "judge_score": 7.5,
@@ -496,7 +611,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = \\frac{\\sum_{i=1}^{3} \\mathbb{1}_{\\{close_t-i > close_{t-i-1}\\}}}{\\max\\left(1, \\sum_{i=1}^{3} \\mathbb{1}_{\\{close_t-i > close_{t-i-1}\\}}\\right)}",
     "judge_score": 7.5,
@@ -517,7 +637,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = -\\frac{close_t - low_t}{high_t - low_t} \\cdot \\frac{volume_t}{volume_t^{10-day~mean}} \\cdot \\left( rank \\left( \\frac{close_t - low_t}{high_t - low_t} \\right)_{cross-sectional} - 0.5 \\right)",
     "judge_score": 7.5,
@@ -538,7 +663,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = -\\frac{close_t - \\text{MA}(close_t, \\text{window\\_length})}{\\text{STD}(close_t, \\text{window\\_length})} \\cdot \\frac{volume_t}{\\text{MA}(volume_t, \\text{window\\_length})} \\cdot \\left(1 + \\frac{volume_t}{\\text{MA}(volume_t, 10)}\\right)^{-1}",
     "judge_score": 7.5,
@@ -559,7 +689,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\text{Signal} = \\left( -\\frac{\\Delta \\text{Close}}{\\text{Close}} \\cdot \\left(1 - \\frac{\\Delta \\text{Volume}}{\\text{Volume}}\\right) \\right) \\cdot \\left(\\frac{\\text{Volume}}{\\text{Volume}_{MA10}}\\right) \\cdot \\left(1 - \\frac{\\text{RSI}}{\\text{RSI}_{Max}}\\right)",
     "judge_score": 7.5,
@@ -580,7 +715,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha = -\\text{rank}\\left(\\frac{\\text{RSI}(14)}{\\text{RSI}(14)_{20\\text{-day mean}}}\\right) \\cdot \\left(1 + \\frac{\\text{Volume}}{\\text{Volume}_{10\\text{-day mean}}}\\right)",
     "judge_score": 7.5,
@@ -601,7 +741,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = \\text{rank}\\left(\\frac{\\text{close}_t - \\text{close}_{t-1}}{\\text{close}_{t-1}} \\cdot \\left(\\frac{\\text{volume}_{t-1} - \\text{volume}_t}{\\text{volume}_{t-1}}\\right) \\cdot \\mathbb{1}(\\text{close}_t > \\text{close}_{t-1})\\right)",
     "judge_score": 7.5,
@@ -622,7 +767,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha = -\\text{rank} \\left( \\frac{\\Delta \\text{close} \\cdot (\\text{volume} / \\text{volume}_{\\text{ma10}})}{\\text{close}} \\right)",
     "judge_score": 7.5,
@@ -643,7 +793,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\text{Signal} = \\frac{\\text{Rank}\\left(\\frac{\\Delta \\text{Volume}}{\\text{Volume}_{\\text{MA}}}\\right)}{\\text{Rank}\\left(\\frac{\\text{Volume}_{\\text{MA}}}{\\text{Volume}_{\\text{Min}}}\\right)}",
     "judge_score": 6.5,
@@ -664,7 +819,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\delta_{close} = -\\left(\\frac{Close - Close_{prev}}{Close_{prev}}\\right) \\cdot \\mathbb{1}_{\\left(\\frac{Close - Close_{prev}}{Close_{prev}} \\leq 0\\right)} \\cdot \\left(\\frac{Volume}{Volume_{10davg}}\\right)^{0.5}",
     "judge_score": 6.5,
@@ -685,7 +845,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = \\text{Rank}\\left(\\frac{\\text{Close}_t - \\text{MA20}_t}{\\text{MA20}_t} \\cdot \\left(\\frac{\\text{Volume}_t}{\\text{MA10}(\\text{Volume})_t}\\right) \\cdot \\text{Sign}(\\text{Close}_t - \\text{MA20}_t)\\right)",
     "judge_score": 7.5,
@@ -706,7 +871,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = 1 - \\left( \\frac{Close_t}{MA20_t} \\right)",
     "judge_score": 7.5,
@@ -727,7 +897,12 @@
       "n_days": 60,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\text{Signal} = -\\text{rank}\\left(\\frac{\\Delta \\text{Close}}{\\text{Volume}}\\right) \\cdot \\mathbb{1}(\\text{Close} > \\text{High}_{\\text{prev}}) \\cdot \\mathbb{1}(\\text{Volume} < \\text{Volume}_{\\text{avg}})",
     "judge_score": 6.5,
@@ -748,7 +923,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = -\\frac{Close_t - Close_{t-k}}{Close_{t-k}} \\cdot \\frac{1}{1 + \\left(\\frac{Volume_t}{Volume_{t,10}}\\right)_{clip(0,2)}}",
     "judge_score": 7.5,
@@ -769,7 +949,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\text{Signal} = -\\left(\\frac{\\text{close} - \\text{low}}{\\text{high} - \\text{low}}\\right) \\cdot \\left(\\frac{\\text{close} - \\text{close}_\\text{rolling}(20)}{\\text{close}_\\text{rolling}(20)}\\right) \\cdot \\text{rank}\\left(\\frac{\\text{close}}{\\text{close}_\\text{rolling}(10)}\\right)",
     "judge_score": 7.5,
@@ -790,7 +975,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\text{Signal} = \\left( \\frac{\\text{Close} - \\text{Close}_{\\text{lowest}}}{\\text{Close}_{\\text{std}}} \\right) \\times \\left( 1 - \\frac{\\text{Volume}}{\\text{Volume}_{\\text{avg}} \\times 2} \\right)",
     "judge_score": 6.5,
@@ -811,7 +1001,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\text{Alpha Factor: } \\frac{\\Delta \\text{Close} \\times \\text{Volume}}{\\text{Close}} \\times \\text{Rank}(\\text{Volume})",
     "judge_score": 7.5,
@@ -832,7 +1027,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha = \\text{rank}\\left(\\frac{\\Delta \\text{close} \\cdot \\text{volume}}{\\text{volatility}(\\text{close})}\\right) - 0.5",
     "judge_score": 7.5,
@@ -853,7 +1053,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = \\text{rank} \\left( \\frac{\\Delta \\text{Close}_t \\cdot \\text{Volume}_t}{\\text{Volume}_{\\text{mean},10}} \\right)",
     "judge_score": 6.5,
@@ -874,7 +1079,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = \\text{rank} \\left( \\frac{\\text{close}_{\\text{prev}} - \\text{close}_{\\text{curr}}}{\\text{high}_{\\text{prev}} - \\text{low}_{\\text{prev}}} \\right) \\cdot \\text{rank} \\left( \\frac{\\text{low}_{\\text{prev}} - \\text{low}_{\\text{curr}}}{\\text{high}_{\\text{prev}} - \\text{low}_{\\text{prev}}} \\right)",
     "judge_score": 7.5,
@@ -895,7 +1105,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha = \\text{rank}\\left(\\frac{\\Delta \\text{close} \\cdot \\text{volume}}{\\text{volatility}}\\right) - 0.5",
     "judge_score": 6.5,
@@ -916,7 +1131,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = \\frac{V_t}{V_{avg,t}} \\cdot \\left( \\frac{P_{max,t} - P_t}{P_{max,t} - P_{min,t}} \\right)",
     "judge_score": 7.5,
@@ -937,7 +1157,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\text{AlphaFactor} = \\left( \\frac{\\text{Volume}}{\\text{Volume}_\\text{MA}(10)} \\right) \\times \\mathbb{1}(\\text{Volume} < \\text{Volume}_\\text{MA}(10)) \\times \\mathbb{1}(\\text{Close} < \\text{Close}_\\text{lag}(1))",
     "judge_score": 7.5,
@@ -958,7 +1183,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha = \\text{rank}\\left(\\frac{\\text{volume} - \\text{volume}_{\\text{ma}10}}{\\text{volume}_{\\text{ma}10}} \\cdot \\text{sign}(\\text{close}_{\\text{lag}1} - \\text{close})\\right)",
     "judge_score": 7.5,
@@ -979,7 +1209,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = -\\frac{\\Delta close_t \\cdot (1 - \\frac{volume_t}{volume_{t-1}})}{\\sigma(\\Delta close_t) \\cdot \\sigma(volume_t)}",
     "judge_score": 7.5,
@@ -1000,7 +1235,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha = -\\frac{(\\Delta Close \\times Volume_{rank})}{\\sigma(\\Delta Close) + \\sigma(Volume_{rank})}",
     "judge_score": 7.5,
@@ -1021,7 +1261,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\text{Signal} = \\text{rank} \\left( \\frac{\\text{Upper Shadow}}{\\text{Body}} \\right) \\times \\left( \\frac{\\text{Volume}}{\\text{Volume}_{10\\text{days}}} \\right)",
     "judge_score": 7.5,
@@ -1042,7 +1287,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\text{Signal} = -\\frac{\\sum_{i=1}^{5} \\Delta Close_{t-i} \\times \\text{Volume Filter} \\times \\text{Downtrend}_{t-i}}{\\sigma(\\Delta Close_{20})}",
     "judge_score": 7.5,
@@ -1063,7 +1313,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = \\frac{Close_t - BollingerBandLower_t}{\\sigma_{Close_t}}",
     "judge_score": 7.5,
@@ -1084,7 +1339,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha = \\left( 1 - \\frac{Close}{Close_{max}} \\right) \\times \\left( \\frac{Volume}{Volume_{10}} \\right)",
     "judge_score": 8.0,
@@ -1105,7 +1365,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha = -\\text{rank}\\left(\\frac{\\text{close}}{\\text{max}(\\text{close}, \\text{window\\_length})}\\right) \\times \\text{rank}\\left(\\frac{\\text{volume}}{\\text{volume.rolling}(10).\\text{mean()}}\\right)",
     "judge_score": 7.5,
@@ -1126,7 +1391,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha_t = -\\text{rank}\\left(\\frac{P_t - P_{\\max,t-20}}{P_{\\max,t-20} - P_{\\min,t-20}}\\right) \\cdot \\text{rank}\\left(\\frac{V_t}{V_{10,t}}\\right)",
     "judge_score": 7.5,
@@ -1147,7 +1417,12 @@
       "n_days": 225,
       "top_bucket_return": 0.0,
       "bottom_bucket_return": 0.0,
-      "long_short_spread": 0.0
+      "long_short_spread": 0.0,
+      "icir": 0.0,
+      "tic": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "ic_ts": {}
     },
     "latex": "\\alpha = \\left(1 - \\frac{close}{close_{max}} \\right) \\cdot \\left(\\frac{volume}{volume_{10}}\\right)",
     "judge_score": 7.5,

@@ -1,0 +1,59 @@
+{
+  "timestamp": "2026-07-09T18:17:00.686436",
+  "results": [
+    {
+      "min_ic": 0.005,
+      "max_inner": 3,
+      "avg_sharpe": -7.348129,
+      "avg_ic": -0.051163
+    },
+    {
+      "min_ic": 0.005,
+      "max_inner": 5,
+      "avg_sharpe": 8.51503,
+      "avg_ic": 0.054593
+    },
+    {
+      "min_ic": 0.005,
+      "max_inner": 8,
+      "avg_sharpe": -7.369492,
+      "avg_ic": -0.051006
+    },
+    {
+      "min_ic": 0.01,
+      "max_inner": 3,
+      "avg_sharpe": 11.495106,
+      "avg_ic": 0.07115
+    },
+    {
+      "min_ic": 0.01,
+      "max_inner": 5,
+      "avg_sharpe": 1.573048,
+      "avg_ic": 0.009489
+    },
+    {
+      "min_ic": 0.01,
+      "max_inner": 8,
+      "avg_sharpe": -6.719981,
+      "avg_ic": -0.047905
+    },
+    {
+      "min_ic": 0.02,
+      "max_inner": 3,
+      "avg_sharpe": 0.0,
+      "avg_ic": 0.0
+    },
+    {
+      "min_ic": 0.02,
+      "max_inner": 5,
+      "avg_sharpe": 0.0,
+      "avg_ic": 0.0
+    },
+    {
+      "min_ic": 0.02,
+      "max_inner": 8,
+      "avg_sharpe": 10.31981,
+      "avg_ic": 0.064242
+    }
+  ]
+}

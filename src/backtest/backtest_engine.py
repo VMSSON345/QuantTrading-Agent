@@ -135,6 +135,8 @@ class BacktestEngine:
                 return self._zero_metrics()
 
             ic_series = []
+            #moi
+            ic_dates = []
             top_bucket_returns = []
             bottom_bucket_returns = []
             long_short_spreads = []
@@ -152,6 +154,7 @@ class BacktestEngine:
                 try:
                     corr, _ = stats.spearmanr(s_val, r_val, nan_policy='omit')
                     if not np.isnan(corr):
+                        ic_dates.append(dt)
                         ic_series.append(float(corr))
                 except Exception:
                     continue
@@ -171,18 +174,56 @@ class BacktestEngine:
 
             if len(ic_series) < 5:
                 return self._zero_metrics()
+            
+            ic_ts = pd.Series(ic_series, index=pd.to_datetime(ic_dates))
+            ic_arr = ic_ts.values
+            yearly_ic = ic_ts.groupby(ic_ts.index.year).mean()
 
             ic_arr = np.array(ic_series)
             ic_mean = float(np.mean(ic_arr))
             ic_std = float(np.std(ic_arr)) + 1e-8
-            sharpe = float(ic_mean / ic_std * np.sqrt(252))
-            win_rate = float(np.mean(ic_arr > 0))
 
-            cum = np.cumsum(ic_arr)
-            rolling_max = np.maximum.accumulate(cum)
-            raw_dd = float(np.min(cum - rolling_max))
-            ic_range = max(float(np.sum(np.abs(ic_arr))), 1e-6)
-            max_dd = round(raw_dd / ic_range, 4)
+            #moi
+            n_days_ic = len(ic_series)
+            
+            # 1. ICIR (Information Coefficient Information Ratio)
+            icir = float(ic_mean / ic_std)
+            
+            # 2. tIC (t-statistic) = ICIR * sqrt(N)
+            t_ic = float(icir * np.sqrt(n_days_ic))
+            
+            # 3. 95% Confidence Intervals (CI)
+            margin_of_error = 1.96 * (ic_std / np.sqrt(n_days_ic))
+            ci_lower = round(float(ic_mean - margin_of_error), 6)
+            ci_upper = round(float(ic_mean + margin_of_error), 6)
+
+            portfolio_returns = np.array(long_short_spreads)
+
+            if len(portfolio_returns) > 1:
+                mean_ret = np.mean(portfolio_returns)
+                std_ret = np.std(portfolio_returns)
+
+                if std_ret > 1e-8:
+                    annual_factor = np.sqrt(252 / forward_days)
+
+                    sharpe = mean_ret / std_ret * annual_factor
+                else:
+                    sharpe = 0.0
+            else:
+                sharpe = 0.0
+            #winrate 
+            win_rate = float(np.mean(ic_arr > 0))
+            
+            #maxdrawdown
+            equity = np.cumprod(1 + portfolio_returns)
+
+            rolling_max = np.maximum.accumulate(equity)
+
+            drawdown = (equity - rolling_max) / rolling_max
+
+            max_dd = float(drawdown.min()) if len(drawdown) else 0.0
+
+
 
             vol_ratio = self.compute_volume_ratio()
             if not vol_ratio.empty:
@@ -206,9 +247,14 @@ class BacktestEngine:
                 "n_days": len(ic_series),
                 "avg_liquidity": round(avg_liquidity, 4),
                 "high_liq_ratio": round(high_liq_ratio, 4),
-                #"top_bucket_return": round(top_bucket_return, 6),
-                #"bottom_bucket_return": round(bottom_bucket_return, 6),
-                #"long_short_spread": round(long_short_spread, 6),
+                "top_bucket_return": round(top_bucket_return, 6),
+                "bottom_bucket_return": round(bottom_bucket_return, 6),
+                "long_short_spread": round(long_short_spread, 6),
+                "icir": round(icir, 6),
+                "tic": round(t_ic, 4),
+                "ci_lower": ci_lower,
+                "ci_upper": ci_upper,
+                "ic_ts": {str(year): round(float(val), 6) for year, val in yearly_ic.items()},
             }
 
         except Exception as e:
@@ -226,7 +272,9 @@ class BacktestEngine:
             "n_days": 0,
             "avg_liquidity": 0.0,
             "high_liq_ratio": 0.0,
-            "top_bucket_return": 0.0,
-            "bottom_bucket_return": 0.0,
-            "long_short_spread": 0.0,
+            "icir": 0.0,
+            "tic": 0.0,
+            "ci_lower": 0.0,
+            "ci_upper": 0.0,
+            "ic_ts": {},
         }

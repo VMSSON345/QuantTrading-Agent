@@ -54,7 +54,7 @@ def extract_latex_legend(latex: str) -> str:
 class WriterAgent(BaseAgent):
     def __init__(self, kb: KnowledgeBase, alpha101_kb: Alpha101KB, model=None, api_key = None):
         super().__init__(model=model or "groq/meta-llama/llama-4-scout-17b-16e-instruct",
-                         agent_name="writer_agent", api_key=api_key)
+                 agent_name="writer_agent", api_key=api_key)
         self.kb = kb
         self.prompt_cfg = _PROMPT_CFG
         self.alpha101_kb = alpha101_kb
